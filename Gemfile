@@ -37,6 +37,8 @@ group :development, :test do
   gem 'byebug'
   gem 'rspec-rails'
   gem "better_errors"
+  gem "binding_of_caller"
+  gem 'ruby-debug-ide'
 end
 
 group :development do

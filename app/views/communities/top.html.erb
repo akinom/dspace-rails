@@ -1,0 +1,14 @@
+
+<h1> Top Communities</h1>
+
+<ul>
+
+    <% @topCommunities.each do |com| %>
+
+        <li>
+            <td><%= link_to com.name, url_for(:action => :show, :id => com.id)  %></td>
+        </li>
+
+    <% end %>
+</ul>
+

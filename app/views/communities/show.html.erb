@@ -1,0 +1,24 @@
+
+<h1> Community <%= @dspace_obj.name %> </h1>
+
+
+<h2> Subommunities </h2>
+
+<ul>
+    <% @communities.each do |com| %>
+        <li>
+            <td><%= link_to com.name, url_for(:controller => :communities, :action => :show, :id => com.id)  %></td>
+        </li>
+    <% end %>
+</ul>
+
+<h2> Collections </h2>
+
+<ul>
+    <% @collections.each do |com| %>
+        <li>
+            <td> <%= com.name %> </td>
+        </li>
+    <% end %>
+</ul>
+

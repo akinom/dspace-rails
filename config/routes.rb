@@ -2,6 +2,8 @@ Rails.application.routes.draw do
 
   root "communities#top"
 
+  devise_for :users
+
   resources :communities, only: [:show]
   resources :collections, only: [:show]
   resources :items, only: [:show]

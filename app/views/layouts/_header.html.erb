@@ -13,7 +13,6 @@
             <div class="navbar-collapse collapse" id="navbar">
                 <ul class="nav navbar-nav">
                     <li><%= link_to "About", about_path %> </li>
-                    <%= mail_to @conatct_email, 'Contact' %>
                     <li> <%= mail_to  @contact_email, "Contact" %> </li>
                     <li class="dropdown">
                         <a aria-expanded="false"
@@ -22,7 +21,7 @@
                             <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <% @top_communities.each do |com| %>
-                                <li><%= link_to com.name, url_for(:controller => :communities, :action => :show, :id => com.id) %></li>
+                                <li><%= link_to com.name, community_path(:id => com.id) %></li>
                             <% end %>
                         </ul>
                     </li>
@@ -30,7 +29,12 @@
                         <%= link_to 'Search', search_path %>
                     </li>
                     <li>
-                        <%= link_to 'Login', login_path %>
+                        <% if user_signed_in? then %>
+                            <%= link_to current_user.email, destroy_user_session_path, :method => :delete  %>
+                            <% else %>
+                            <%= link_to 'Login', new_user_session_path %>
+
+                    <% end %>
                     </li>
                 </ul>
             </div>

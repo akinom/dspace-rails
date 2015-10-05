@@ -1,0 +1,13 @@
+
+<h1> Collection: <%= @dspace_obj.name %> </h1>
+
+<h2> Items </h2>
+
+<ul>
+    <% @items.each do |itm| %>
+        <li>
+            <td><%= link_to itm.name, item_path(itm.id)  %></td>
+        </li>
+    <% end %>
+</ul>
+

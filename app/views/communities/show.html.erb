@@ -1,5 +1,5 @@
 
-<h1> Community <%= @dspace_obj.name %> </h1>
+<h1> Community: <%= @dspace_obj.name %> </h1>
 
 
 <h2> Subommunities </h2>
@@ -7,7 +7,7 @@
 <ul>
     <% @communities.each do |com| %>
         <li>
-            <td><%= link_to com.name, url_for(:controller => :communities, :action => :show, :id => com.id)  %></td>
+            <td><%= link_to com.name, community_path(com.id)  %></td>
         </li>
     <% end %>
 </ul>
@@ -15,9 +15,9 @@
 <h2> Collections </h2>
 
 <ul>
-    <% @collections.each do |com| %>
+    <% @collections.each do |col| %>
         <li>
-            <td> <%= com.name %> </td>
+            <td><%= link_to col.name, collection_path(col.id)  %></td>
         </li>
     <% end %>
 </ul>

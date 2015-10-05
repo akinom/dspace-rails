@@ -1,0 +1,28 @@
+<h1> Item </h1>
+
+<h3> Metadata </h3>
+<ul>
+    <% @dspace_obj.attributes['metadata'].each do |md| %>
+        <li>
+            <span class="text-primary">
+                <%= md['key'] %>:
+            </span>
+            <%= md['value'] %>
+        </li>
+    <% end %>
+</ul>
+
+
+<h3> Bitstreams </h3>
+<ul>
+    <% if (@bitstreams.empty?) then %>
+        <li> None</li>
+    <% else %>
+        <% @bitstreams.each do |itm| %>
+            <li>
+                <%= link_to itm.name, item_path(itm.id) %>
+            </li>
+        <% end %>
+    <% end %>
+</ul>
+

@@ -12,9 +12,9 @@ class ApplicationController < ActionController::Base
   end
 
   protected
-  def set_dspace_obj(klass)
+  def set_dspace_obj(klass, expand = [])
     # expand nothing
-    @dspace_obj = klass.find_by_id(params[:id], [])
+    @dspace_obj = klass.find_by_id(params[:id], expand)
   end
 
   def set_common

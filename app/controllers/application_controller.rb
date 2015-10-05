@@ -5,6 +5,12 @@ class ApplicationController < ActionController::Base
 
   before_action :set_common
 
+  def about
+  end
+
+  def todo
+  end
+
   protected
   def set_dspace_obj(klass)
     # expand nothing
@@ -12,7 +18,9 @@ class ApplicationController < ActionController::Base
   end
 
   def set_common
-    @topCommunities = DSpace::Rest::Community.topCommuities(:linit => 10000)
+    @app_name = "DspaceRails"
+    @contact_email = "contact@myplace.edu"
+    @top_communities = DSpace::Rest::Community.topCommuities(:linit => 10000)
   end
 
 

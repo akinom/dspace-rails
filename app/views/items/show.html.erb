@@ -1,5 +1,7 @@
 <h1> Item </h1>
 
+<h4> Handle: <%= @dspace_obj.handle %> </h4>
+
 <h3> Metadata </h3>
 <ul>
     <% @dspace_obj.attributes['metadata'].each do |md| %>

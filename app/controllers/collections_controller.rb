@@ -9,7 +9,7 @@ class CollectionsController < ApplicationController
   private
     def set_obj
     # Use callbacks to share common setup or constraints between actions.
-      set_dspace_obj(DSpace::Rest::Collection)
+      set_dspace_obj(DSpace::Rest::Collection, ['parentCommunityList'])
     end
 
 end

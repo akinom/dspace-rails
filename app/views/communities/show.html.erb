@@ -1,13 +1,13 @@
 
 <h1> Community: <%= @dspace_obj.name %> </h1>
 
+<h4> Handle: <%= @dspace_obj.handle %> </h4>
 
 <h2> Subommunities </h2>
 
 <ul>
     <% @communities.each do |com| %>
-        <li>
-            <td><%= link_to com.name, community_path(com.id)  %></td>
+        <li><%= link_to com.name, community_path(com.id)  %>
         </li>
     <% end %>
 </ul>
@@ -17,7 +17,7 @@
 <ul>
     <% @collections.each do |col| %>
         <li>
-            <td><%= link_to col.name, collection_path(col.id)  %></td>
+            <%= link_to col.name, collection_path(col.id)  %>
         </li>
     <% end %>
 </ul>

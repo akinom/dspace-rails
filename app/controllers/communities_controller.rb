@@ -15,8 +15,8 @@ class CommunitiesController < ApplicationController
 
   private
     def set_obj
-    # Use callbacks to share common setup or constraints between actions.
-      set_dspace_obj(DSpace::Rest::Community)
+    # should have parentCommunityList expander
+      set_dspace_obj(DSpace::Rest::Community, ['parentCommunity'])
     end
 
 end

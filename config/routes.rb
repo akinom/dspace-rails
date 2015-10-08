@@ -33,6 +33,7 @@ Rails.application.routes.draw do
   build_routes(':layout')
 
   get '/sitemap', to: "communities#top", defaults: { :layout => 'sitemap'}
+  get '/sidemenu', to: "communities#top", defaults: { :layout => 'sidemenu'}
 
   devise_for :users
 

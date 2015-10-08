@@ -6,9 +6,11 @@ class ApplicationController < ActionController::Base
   before_action :set_common
 
   def about
+    display
   end
 
   def todo
+    display
   end
 
   protected
@@ -42,7 +44,7 @@ class ApplicationController < ActionController::Base
     @contact_email = "contact@myplace.edu"
     @top_communities = DSpace::Rest::Community.topCommuities(:linit => 10000)
     @dspace_obj_parents  = [] unless @dspace_obj_parents
+    @layout = params['layout'] || 'application'
   end
-
 
 end

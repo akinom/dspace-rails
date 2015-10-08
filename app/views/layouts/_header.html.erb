@@ -12,7 +12,7 @@
             </div>
             <div class="navbar-collapse collapse" id="navbar">
                 <ul class="nav navbar-nav">
-                    <li><%= link_to "About", about_path %> </li>
+                    <li><%= link_to "About", url_for(:controller => :application, :action => 'about', :layout => @layout) %> </li>
                     <li> <%= mail_to  @contact_email, "Contact" %> </li>
                     <li class="dropdown">
                         <a aria-expanded="false"
@@ -21,12 +21,12 @@
                             <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <% @top_communities.each do |com| %>
-                                <li><%= link_to com.name, community_path(:id => com.id) %></li>
+                                <li><%= link_to com.name, url_for(:controller => :communities, :action => :show, :id => com.id, :layout => @layout) %></li>
                             <% end %>
                         </ul>
                     </li>
                     <li>
-                        <%= link_to 'Search', search_path %>
+                        <%= link_to 'Search',  url_for(:controller => :application, :action => 'todo', :layout => @layout) %>
                     </li>
                     <li>
                         <% if user_signed_in? then %>

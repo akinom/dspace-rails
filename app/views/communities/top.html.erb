@@ -4,7 +4,7 @@
 <ul>
     <% @top_communities.each do |com| %>
         <li>
-            <%= link_to com.name, url_for(:action => :show, :id => com.id)  %>
+            <%= link_to com.name, url_for(:id => com.id, :controller => 'communities', :action => :show, :layout => @layout)  %>
         </li>
     <% end %>
 </ul>

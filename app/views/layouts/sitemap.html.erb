@@ -18,7 +18,9 @@
 
 <body class='<%= "action_#{params['action']}" %> <%= "controller_#{params['controller']}" %>'>
 
+<%= render partial: 'layouts/breadcrumbs' %>
 
-            <%= yield %>
+
+<%= yield %>
 </body>
 </html>

@@ -7,7 +7,8 @@
 
 <ul>
     <% @communities.each do |com| %>
-        <li><%= link_to com.name, community_path(com.id)  %>
+        <li>
+            <%= link_to com.name, url_for(:id => com.id, :controller => 'communities', :action => :show, :layout => @layout)  %>
         </li>
     <% end %>
 </ul>
@@ -17,7 +18,7 @@
 <ul>
     <% @collections.each do |col| %>
         <li>
-            <%= link_to col.name, collection_path(col.id)  %>
+            <%= link_to col.name, url_for(:id => col.id, :controller => :collections, :action => :show, :layout => @layout)  %>
         </li>
     <% end %>
 </ul>

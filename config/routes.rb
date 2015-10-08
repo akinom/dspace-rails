@@ -1,16 +1,38 @@
 Rails.application.routes.draw do
 
-  root "communities#top"
-
-  resources :communities, only: [:show]
-  resources :collections, only: [:show]
-  resources :items, only: [:show]
-
-  get  'about' => "application#about"
-
-  ['search'].each do |action|
-    get  action => "application#todo"
+  def community_routes(prefix, defaults)
+    get "#{prefix}/communities/:id/show", to: "communities#show", defaults: defaults
   end
+
+  def collection_routes(prefix, defaults)
+    get "#{prefix}/collections/:id/show", to: "collections#show", defaults: defaults
+  end
+
+  def item_routes(prefix, defaults)
+    get "#{prefix}/items/:id/show", to: "items#show", defaults: defaults
+  end
+
+  def build_routes(layout)
+    if (layout == 'application')
+      prefix = "/" + layout
+      defaults = { :layout => layout}
+    else
+      prefix = "/:layout"
+      defaults = {}
+    end
+    community_routes(prefix, defaults)
+    collection_routes(prefix, defaults)
+    item_routes(prefix, defaults)
+    get "#{prefix}/about", to: "application#about", defaults: defaults
+    get "#{prefix}/search", to: "application#todo", defaults: defaults
+  end
+
+  root "communities#top", defaults: {layout: 'application'}
+
+  build_routes('application')
+  build_routes(':layout')
+
+  get '/sitemap', to: "communities#top", defaults: { :layout => 'sitemap'}
 
   devise_for :users
 

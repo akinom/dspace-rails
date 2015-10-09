@@ -4,7 +4,9 @@ class CollectionsController < ApplicationController
   # GET /colections/1
   def show
     @items = @dspace_obj.items({})
+    display
   end
+
 
   private
     def set_obj

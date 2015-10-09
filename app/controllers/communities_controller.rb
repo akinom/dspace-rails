@@ -11,6 +11,7 @@ class CommunitiesController < ApplicationController
   def show
     @collections = @dspace_obj.collections({})
     @communities = @dspace_obj.communities({})
+    display
   end
 
   private

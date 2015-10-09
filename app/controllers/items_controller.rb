@@ -4,6 +4,7 @@ class ItemsController < ApplicationController
   # GET /colections/1
   def show
     @bitstreams = @dspace_obj.bitstreams({})
+    display
   end
 
   private

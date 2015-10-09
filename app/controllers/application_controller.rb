@@ -6,9 +6,11 @@ class ApplicationController < ActionController::Base
   before_action :set_common
 
   def about
+    display
   end
 
   def todo
+    display
   end
 
   protected
@@ -36,7 +38,6 @@ class ApplicationController < ActionController::Base
     return @dspace_obj
   end
 
-
   def set_common
     @app_name = "DspaceRails"
     @contact_email = "contact@myplace.edu"
@@ -44,5 +45,13 @@ class ApplicationController < ActionController::Base
     @dspace_obj_parents  = [] unless @dspace_obj_parents
   end
 
+  # app/controllers/application_controller.rb
+  def default_url_options(options = {})
+    { layout: params['layout'] || 'application' }.merge options
+  end
+
+  def display(options = {})
+    render({ layout: params['layout'] }.merge options)
+  end
 
 end

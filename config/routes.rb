@@ -1,41 +1,22 @@
 Rails.application.routes.draw do
 
-  def community_routes(prefix, defaults)
-    get "#{prefix}/communities/:id/show", to: "communities#show", defaults: defaults
-  end
+  root "communities#top", :layout => "application"
 
-  def collection_routes(prefix, defaults)
-    get "#{prefix}/collections/:id/show", to: "collections#show", defaults: defaults
-  end
+  scope "/:layout" do
 
-  def item_routes(prefix, defaults)
-    get "#{prefix}/items/:id/show", to: "items#show", defaults: defaults
-  end
+    resources :communities, only: [:show]
+    resources :collections, only: [:show]
+    resources :items, only: [:show]
 
-  def build_routes(layout)
-    if (layout == 'application')
-      prefix = "/" + layout
-      defaults = { :layout => layout}
-    else
-      prefix = "/:layout"
-      defaults = {}
+    get 'about' => "application#about"
+
+    ['search'].each do |action|
+      get action => "application#todo"
     end
-    community_routes(prefix, defaults)
-    collection_routes(prefix, defaults)
-    item_routes(prefix, defaults)
-    get "#{prefix}/about", to: "application#about", defaults: defaults
-    get "#{prefix}/search", to: "application#todo", defaults: defaults
+
+    devise_for :users
+
   end
-
-  root "communities#top", defaults: {layout: 'application'}
-
-  build_routes('application')
-  build_routes(':layout')
-
-  get '/sitemap', to: "communities#top", defaults: { :layout => 'sitemap'}
-  get '/sidemenu', to: "communities#top", defaults: { :layout => 'sidemenu'}
-
-  devise_for :users
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

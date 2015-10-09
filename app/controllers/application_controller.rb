@@ -43,15 +43,17 @@ class ApplicationController < ActionController::Base
     @contact_email = "contact@myplace.edu"
     @top_communities = DSpace::Rest::Community.topCommuities(:linit => 10000)
     @dspace_obj_parents  = [] unless @dspace_obj_parents
+    @layout = params['layout'] || 'application'
   end
 
   # app/controllers/application_controller.rb
   def default_url_options(options = {})
-    { layout: params['layout'] || 'application' }.merge options
+    { layout: @layout }.merge options
   end
 
   def display(options = {})
     render({ layout: params['layout'] }.merge options)
   end
 
-end
+
+  end

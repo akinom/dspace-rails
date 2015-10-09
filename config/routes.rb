@@ -14,6 +14,8 @@ Rails.application.routes.draw do
       get action => "application#todo"
     end
 
+    get '' => "communities#top"
+
     devise_for :users
 
   end

@@ -1,24 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title><%= $title %></title>
-    <%= yield :index %>
-    <%= yield :slide_menu %>
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-    <%= csrf_meta_tags %>
-    <%= favicon_link_tag 'ruby_fav.ico' %>
-    <style>
-        body {
-
-            padding-top: 60px;
-        }
-    </style>
+    <title><%= @app_name %></title>
 </head>
 
 <body class='<%= "action_#{params['action']}" %> <%= "controller_#{params['controller']}" %>'>
-
-
-            <%= yield %>
+    <%= yield %>
 </body>
 </html>

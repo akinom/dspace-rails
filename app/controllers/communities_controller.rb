@@ -5,6 +5,7 @@ class CommunitiesController < ApplicationController
   def top
     # application controller set common gets the top communities
     # ==> nothing to do here
+    display
   end
 
   # GET /communities/1

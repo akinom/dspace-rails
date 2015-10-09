@@ -23,9 +23,10 @@
 <!-- there is something going on with bootstrap that does not move main below the nav header -->
 <div class="container" style="margin-top: 64px">
 
+
     <div class="header">
         <header>
-            <p class="bg-primary"> Whatever Header </p>
+            <p class="bg-primary"> Same Header as Library Web site  </p>
         </header>
     </div>
 
@@ -34,25 +35,26 @@
         <div class="ds_alert alert-danger"><%= alert %></div>
 
         <div class="row">
-            <div class="col-md-3">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Side Menu</h3>
-                    </div>
-                    <div class="panel-body">
-                        With stuff
-                    </div>
-                </div>
+            <div class="col-md-2 ">
+                <p> Side </p>
+                <p> Entries </p>
+                <p> As  </p>
+                <p> The Library </p>
+                <p> Likes it </p>
 
+                <p> <%= link_to "Home", "/" %> </p>
             </div>
-            <div class="col-md-9">
-                <%= render partial: 'layouts/breadcrumbs' %>
-
+            <div class="col-md-10">
                 <%= yield %>
             </div>
         </div>
 
-        <%= render partial: 'layouts/footer' %>
+        <div class="footer">
+            <footer>
+                <p class="bg-primary"> Wahtever the library likes  </p>
+            </footer>
+        </div>
+
 
 
     </div>

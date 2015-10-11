@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-  before_action :set_common
+  before_action :do_always
 
   def about
     display
@@ -38,22 +38,70 @@ class ApplicationController < ActionController::Base
     return @dspace_obj
   end
 
-  def set_common
+  def do_always
     @app_name = "DspaceRails"
     @contact_email = "contact@myplace.edu"
-    @top_communities = DSpace::Rest::Community.topCommuities(:linit => 10000)
-    @dspace_obj_parents  = [] unless @dspace_obj_parents
-    @layout = params['layout'] || 'application'
+
+    # if dspace_obj_parents noy set by set_dspace_obj  default to []
+    @dspace_obj_parents = [] unless @dspace_obj_parents
+
+    @layout = params['layout']
+    @overwriter = find_overwriter(self.class)
+    do_overwrite(:do_always)
+
   end
 
   # app/controllers/application_controller.rb
   def default_url_options(options = {})
-    { layout: @layout }.merge options
+    {layout: @layout}.merge options
   end
 
   def display(options = {})
-    render({ layout: params['layout'] }.merge options)
+    opts = {layout: params['layout'],
+            controller: params['controller'],
+            action: params['action']}.merge(options)
+     # use template_exists?
+     overwrite = "#{@layout}/#{opts[:controller]}/#{opts[:action]}"
+     if (template_exists?(overwrite)) then
+       opts = {template: overwrite}.merge(opts)
+     end
+    render(opts)
   end
 
-
+  public
+  def set(sym, value)
+    eval "@#{sym.to_s} = value"
   end
+
+  def get(sym)
+    eval "@#{sym.to_s}"
+  end
+
+  protected
+  def do_overwrite(method)
+    if (@overwriter and @overwriter.respond_to?(method)) then
+      return @overwriter.send method, self
+    end
+    return nil
+  end
+
+  public
+  def find_overwriter(klass)
+    puts "find_overwriter #{klass}"
+    if (klass.name.include?('::')) then
+      return find_overwriter(ApplicationController)
+    end
+    begin
+      overwriterklass = "#{@layout.camelcase}::#{klass.to_s.chomp('Controller')}Overwrite"
+      @overwriter = Class.const_get(overwriterklass).new
+      return @overwriter
+    rescue
+      if (klass != ApplicationController) then
+        parent = klass.ancestors[1]
+        return find_overwriter(parent)
+      else
+        return nil
+      end
+    end
+  end
+end

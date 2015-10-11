@@ -1,0 +1,29 @@
+<p>
+    Part of the libraries glorious digital asset collection ....
+</p>
+
+<h1> Citation </h1>
+<ul>
+    <% @dspace_obj.attributes['metadata'].each do |md| %>
+        <p>
+            <span class="text-primary">
+                <%= md['key'] %>:
+            </span>
+
+            <%= md['value'] %>
+        </p>
+    <% end %>
+</ul>
+
+<h3> Download </h3>
+<ul>
+    <% if (@bitstreams.empty?) then %>
+        <li> No files available for download, Please contatc the library at XXXX for assistance</li>
+    <% else %>
+        <% @bitstreams.each do |itm| %>
+            <li>
+                <%= link_to itm.name, item_path(itm.id) %>
+            </li>
+        <% end %>
+    <% end %>
+</ul>

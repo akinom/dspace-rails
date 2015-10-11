@@ -3,7 +3,8 @@ class CollectionsController < ApplicationController
 
   # GET /colections/1
   def show
-    @items = @dspace_obj.items({})
+    do_overwrite(:show)
+    @items = @dspace_obj.items({limit: 10})  unless @items
     display
   end
 

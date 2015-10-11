@@ -3,13 +3,16 @@ class CommunitiesController < ApplicationController
 
   # GET /communities
   def top
-    # application controller set common gets the top communities
-    # ==> nothing to do here
+    do_overwrite(:top)
+    if (not @top_communities) then
+      @top_communities = DSpace::Rest::Community.topCommuities(:linit => 10000)
+    end
     display
   end
 
   # GET /communities/1
   def show
+    do_overwrite(:show)
     @collections = @dspace_obj.collections({})
     @communities = @dspace_obj.communities({})
     display
@@ -17,7 +20,7 @@ class CommunitiesController < ApplicationController
 
   private
     def set_obj
-    # should have parentCommunityList expander
+      # should have parentCommunityList expander
       set_dspace_obj(DSpace::Rest::Community, ['parentCommunity'])
     end
 

@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  root "communities#top", :layout => "application"
+  root "communities#top", :layout => "default"
 
   scope "/:layout" do
 

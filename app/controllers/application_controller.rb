@@ -20,20 +20,18 @@ class ApplicationController < ActionController::Base
     @dspace_obj_parents = []
     if (@dspace_obj) then
       # TODO: this should be part of the dspace-rest gem
-      # and parents should be a list of Collectcon, community objects
-      parents = []
+      # and parents should be a list of Collectcon, and Community objects
+      @dspace_obj_parents = []
+
       list = @dspace_obj.attributes['parentCollectionList'];
-      if (!list.nil? and list.size > 0) then
-        parents = list
-      end
-      if @dspace_obj.attributes['parentCommunity'] then
-        parents << @dspace_obj.attributes['parentCommunity']
-      end
+      @dspace_obj_parents = list if  list
+
+      com = @dspace_obj.attributes['parentCommunity']
+      @dspace_obj_parents << pcom if com
+
       list = @dspace_obj.attributes['parentCommunityList'];
-      if (!list.nil? and list.size > 0) then
-        parents = parents + @dspace_obj.attributes['parentCommunityList']
-      end
-      @dspace_obj_parents = parents;
+      @dspace_obj_parents += list if list and list.size > 0
+
     end
     return @dspace_obj
   end
@@ -48,7 +46,6 @@ class ApplicationController < ActionController::Base
     @layout = params['layout']
     @overwriter = find_overwriter(self.class)
     do_overwrite(:do_always)
-
   end
 
   # app/controllers/application_controller.rb
@@ -77,17 +74,8 @@ class ApplicationController < ActionController::Base
     eval "@#{sym.to_s}"
   end
 
-  protected
-  def do_overwrite(method)
-    if (@overwriter and @overwriter.respond_to?(method)) then
-      return @overwriter.send method, self
-    end
-    return nil
-  end
-
-  public
+  private
   def find_overwriter(klass)
-    puts "find_overwriter #{klass}"
     if (klass.name.include?('::')) then
       return find_overwriter(ApplicationController)
     end
@@ -104,4 +92,16 @@ class ApplicationController < ActionController::Base
       end
     end
   end
-end
+
+  protected
+  def do_overwrite(method)
+    if (@overwriter and @overwriter.respond_to?(method)) then
+      puts "#{method}: call #{@overwriter.class}.#{method}"
+      return @overwriter.send method, self
+    end
+    puts "#{method}: no overwriter " unless @overwriter
+    puts "#{method}: no #{@overwriter.class}.#{method} " if @overwriter
+    return nil
+  end
+
+ end

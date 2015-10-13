@@ -4,9 +4,7 @@ class CommunitiesController < ApplicationController
   # GET /communities
   def top
     do_overwrite(:top)
-    if (not @top_communities) then
-      @top_communities = DSpace::Rest::Community.topCommuities(:linit => 10000)
-    end
+    @top_communities ||= DSpace::Rest::Community.topCommuities(:linit => 10000)
     display
   end
 

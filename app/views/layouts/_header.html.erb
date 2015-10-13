@@ -20,6 +20,8 @@
                         <span class="caret"></span></a>
                     <% if @explore_communities then %>
                         <ul class="dropdown-menu">
+
+                
                             <% @explore_communities.each do |com| %>
                                 <li><%= link_to com.name, community_path(:id => com.id) %></li>
                             <% end %>

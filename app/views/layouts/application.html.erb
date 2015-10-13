@@ -21,11 +21,21 @@
 
 
 <!-- there is something going on with bootstrap that does not move main below the nav header -->
-<div class="container" ">
+<div class="container">
 
-<%= yield %>
+<%= render partial: 'layouts/header' %>
+
+<div class="container" style="margin-top: 64px">
+    <div class="content">
+        <div class="ds_notice alert-success"><%= notice %></div>
+        <div class="ds_alert alert-danger"><%= alert %></div>
+        <%= yield %>
+    </div>
+
+    <%= render partial: 'layouts/footer' %>
 
 </div>
+
 
 </body>
 </html>

@@ -1,3 +1,13 @@
+GIT
+  remote: https://github.com/akinom/do-dspace-rest.git
+  revision: be5880adc1188a12413bb4df39be39d97238e0e3
+  branch: master
+  specs:
+    dspace-rest (0.0.1)
+      json (~> 1.8)
+      rest-client (~> 1.8)
+      rspec-core (~> 3.3)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -63,13 +73,8 @@ GEM
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
     diff-lcs (1.2.5)
-    domain_name (0.5.24)
+    domain_name (0.5.25)
       unf (>= 0.0.5, < 1.0.0)
-    dspace-rest (0.0.1)
-      json
-      rails
-      rest-client (~> 1.8)
-      rspec
     erubis (2.7.0)
     execjs (2.6.0)
     globalid (0.3.6)
@@ -133,10 +138,6 @@ GEM
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 3.0)
       netrc (~> 0.7)
-    rspec (3.3.0)
-      rspec-core (~> 3.3.0)
-      rspec-expectations (~> 3.3.0)
-      rspec-mocks (~> 3.3.0)
     rspec-core (3.3.2)
       rspec-support (~> 3.3.0)
     rspec-expectations (3.3.1)
@@ -202,7 +203,7 @@ DEPENDENCIES
   byebug
   coffee-rails (~> 4.1.0)
   devise (~> 3.4.0)
-  dspace-rest
+  dspace-rest!
   jbuilder (~> 2.0)
   jquery-rails
   rails (= 4.2.4)

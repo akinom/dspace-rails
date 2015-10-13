@@ -18,11 +18,13 @@
                        aria-haspopup="true" role="button"
                        data-toggle="dropdown" class="dropdown-toggle" href="#">Explore
                         <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <% @menu_top_communities.each do |com| %>
-                            <li><%= link_to com.name, community_path(:id => com.id) %></li>
-                        <% end %>
-                    </ul>
+                    <% if @explore_communities then %>
+                        <ul class="dropdown-menu">
+                            <% @explore_communities.each do |com| %>
+                                <li><%= link_to com.name, community_path(:id => com.id) %></li>
+                            <% end %>
+                        </ul>
+                    <% end %>
                 </li>
                 <li>
                     <%= link_to 'Search', search_path %>

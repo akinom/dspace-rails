@@ -6,34 +6,17 @@ class ApplicationController < ActionController::Base
   before_action :do_always
 
   def about
-    display
+    do_overwrite(:about)
   end
 
   def todo
-    display
   end
 
-  protected
   def set_dspace_obj(klass, expand = [])
     # expand nothing
     @dspace_obj = klass.find_by_id(params[:id], expand)
-    @dspace_obj_parents = []
-    if (@dspace_obj) then
-      # TODO: this should be part of the dspace-rest gem
-      # and parents should be a list of Collectcon, and Community objects
-      @dspace_obj_parents = []
-
-      list = @dspace_obj.attributes['parentCollectionList'];
-      @dspace_obj_parents = list if  list
-
-      com = @dspace_obj.attributes['parentCommunity']
-      @dspace_obj_parents << pcom if com
-
-      list = @dspace_obj.attributes['parentCommunityList'];
-      @dspace_obj_parents += list if list and list.size > 0
-
-    end
-    return @dspace_obj
+    @dspace_obj_parents = dspace_obi_parents(@dspace_obj)
+    @dspace_obj
   end
 
   def do_always
@@ -53,16 +36,23 @@ class ApplicationController < ActionController::Base
     {layout: @layout}.merge options
   end
 
-  def display(options = {})
-    opts = {layout: params['layout'],
-            controller: params['controller'],
-            action: params['action']}.merge(options)
-     # use template_exists?
-     overwrite = "#{@layout}/#{opts[:controller]}/#{opts[:action]}"
-     if (template_exists?(overwrite)) then
-       opts = {template: overwrite}.merge(opts)
-     end
-    render(opts)
+  def render(*args, &block)
+    args[0] = {} unless args[0]
+    args[0][:layout] = args[0][:layout] || params['layout']
+    template = args[0][:template]
+    if (template.nil?) then
+      controller = args[0][:controller] || params['controller']
+      action = args[0][:action] || params['action']
+      overwrite = "#{args[0][:layout]}/#{controller}/#{action}"
+      if (template_exists?(overwrite)) then
+        args[0][:template] = overwrite
+      end
+    end
+    # TODO figure out how to call   AbstractController::Rendering render on self
+    options = _normalize_render(*args, &block)
+    self.response_body = render_to_body(options)
+    _process_format(rendered_format, options) if rendered_format
+    self.response_body
   end
 
   public
@@ -98,4 +88,20 @@ class ApplicationController < ActionController::Base
     return nil
   end
 
- end
+  private
+  # TODO: this should be part of the dspace-rest gem
+  # and parents should be a list of Collectcon, and Community objects
+  def dspace_obi_parents(obj)
+    parents = []
+    if  obj  then
+      list = @dspace_obj.attributes['parentCollectionList'];
+      parents = list if list
+      com = @dspace_obj.attributes['parentCommunity']
+      parents << pcom if com
+      list = @dspace_obj.attributes['parentCommunityList'];
+      parents += list if list and list.size > 0
+    end
+    parents
+  end
+
+end

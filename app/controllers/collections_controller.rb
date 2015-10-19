@@ -5,13 +5,11 @@ class CollectionsController < ApplicationController
   def show
     do_overwrite(:show)
     @items = @dspace_obj.items({limit: 10})  unless @items
-    display
   end
 
 
   private
     def set_obj
-    # Use callbacks to share common setup or constraints between actions.
       set_dspace_obj(DSpace::Rest::Collection, ['parentCommunityList'])
     end
 

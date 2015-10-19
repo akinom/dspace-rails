@@ -3,13 +3,12 @@ class ItemsController < ApplicationController
 
   # GET /colections/1
   def show
+    do_overwrite(:show)
     @bitstreams = @dspace_obj.bitstreams({})
-    display
   end
 
   private
     def set_obj
-    # Use callbacks to share common setup or constraints between actions.
       set_dspace_obj(DSpace::Rest::Item, ['metadata', 'parentCollectionList', 'parentCommunityList'])
     end
 

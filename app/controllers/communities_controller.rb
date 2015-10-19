@@ -5,7 +5,6 @@ class CommunitiesController < ApplicationController
   def top
     do_overwrite(:top)
     @top_communities ||= DSpace::Rest::Community.topCommuities(:linit => 10000)
-    display
   end
 
   # GET /communities/1
@@ -13,7 +12,6 @@ class CommunitiesController < ApplicationController
     do_overwrite(:show)
     @collections = @dspace_obj.collections({})
     @communities = @dspace_obj.communities({})
-    display
   end
 
   private

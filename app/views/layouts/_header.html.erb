@@ -20,8 +20,6 @@
                         <span class="caret"></span></a>
                     <% if @explore_communities then %>
                         <ul class="dropdown-menu">
-
-                
                             <% @explore_communities.each do |com| %>
                                 <li><%= link_to com.name, community_path(:id => com.id) %></li>
                             <% end %>
@@ -33,10 +31,9 @@
                 </li>
                 <li>
                     <% if user_signed_in? then %>
-                        <%= link_to current_user.email, destroy_user_session_path, :method => :delete %>
+                        <%= link_to "Logout #{current_user.email}" , destroy_user_session_path, :method => :delete %>
                     <% else %>
                         <%= link_to 'Login', new_user_session_path %>
-
                     <% end %>
                 </li>
             </ul>

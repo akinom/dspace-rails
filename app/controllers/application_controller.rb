@@ -76,21 +76,15 @@ class ApplicationController < ActionController::Base
 
   private
   def find_overwriter(klass)
-    if (klass.name.include?('::')) then
-      return find_overwriter(ApplicationController)
-    end
+    return nil if klass.class != Class;
+    over = nil
     begin
       overwriterklass = "#{@layout.camelcase}::#{klass.to_s.chomp('Controller')}Overwrite"
-      @overwriter = Class.const_get(overwriterklass).new
-      return @overwriter
-    rescue
-      if (klass != ApplicationController) then
-        parent = klass.ancestors[1]
-        return find_overwriter(parent)
-      else
-        return nil
-      end
+      over = Class.const_get(overwriterklass).new
+    rescue Exception => e
+      over = find_overwriter(klass.ancestors[1])
     end
+    over
   end
 
   protected

@@ -8,6 +8,10 @@ which both helped me get started on this rails application
 
 I tested this with ruby 2.1.1 and rails 4.2.4 and sqlite3 database. I have not tested production deployment.
 
+There is also a live installation at https://immense-sierra-3941.herokuapp.com/ based on ruby 2.0.0 
+
+To run on locally: 
+
 install ruby, https://www.ruby-lang.org/en/
 
 install bundler, http://bundler.io/

@@ -1,10 +1,14 @@
 <h1> About <%= @app_name %> </h1>
 
-<p> rest interaction is handled by a separate gem: see
+<p> Rest interaction is handled by a separate gem, which also provides collection,community and item classes: see
     <a href="https://github.com/akinom/do-dspace-rest.git">do-dspace-rest.git</a></p>
 
-<h2> Layouts </h2>
+<p>
+    The application has generic controllers and views in place wth mechanism to overwrite specific behviours and views,
+    eg the layout framework, which communities to list on the top communities page, or how to display item pages.
+</p>
 
+<h2> Layouts </h2>
 
 <h3> Default Layout</h3>
 <p>
@@ -23,7 +27,7 @@
 
 <p> The
     <%= link_to "Sitemap Layout", :controller => :communities, :action => :top, :layout => 'sitemap' %> decides not to
-    show top communities with titles that start with a letters M-Z. Collection pages show more thant the default 10
+    show top communities with titles that start with the letters M-Z. Collection pages show more thant the default 10
     items.
     <br/> see
     <a href="https://github.com/akinom/dspace-rails/tree/master/app/controllers/sitemap"> controller
@@ -43,8 +47,10 @@
 
     <br/> see
     <a href='https://github.com/akinom/dspace-rails/blob/master/app/views/layouts/library.html.erb'> layout </a>
-    and <a ref="https://github.com/akinom/dspace-rails/tree/master/app/views/library"> view overwrite</a>
-
+    and <a href='https://github.com/akinom/dspace-rails/blob/master/app/views/library/items/show.html.erb'>
+    item show overwrite </a>
+    replaces
+    <a href="https://github.com/akinom/dspace-rails/blob/master/app/views/items/show.html.erb"> default item show</a>
 </p>
 
 <h3> CSS styling </h3>
@@ -54,6 +60,10 @@
 </p>
 
 <p>
+    Adding a logo, adding a link to the header secrion or whether to include bread crumbs on pages is done by
+    modifying the main layout files.
+</p>
+<p>
     In the <%= link_to "Default Layout", root_path %>
     the names of the pages action, controller, and
     if available the handle of the displayed dspace object (item, collection, community)
@@ -62,7 +72,7 @@
 
     <br/>
     see
-    <a href="https://github.com/akinom/dspace-rails/blob/master/app/assets/stylesheets/default.scss"> default.css</a>
+    <a href="https://github.com/akinom/dspace-rails/blob/master/app/assets/stylesheets/default.css"> default.css</a>
     and <a href="'https://github.com/akinom/dspace-rails/blob/master/app/helpers/application_helper.rb">
     application_helper.rb</a>
 

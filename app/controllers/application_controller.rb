@@ -97,7 +97,7 @@ class ApplicationController < ActionController::Base
       list = @dspace_obj.attributes['parentCollectionList'];
       parents = list if list
       com = @dspace_obj.attributes['parentCommunity']
-      parents << pcom if com
+      parents << com if com
       list = @dspace_obj.attributes['parentCommunityList'];
       parents += list if list and list.size > 0
     end

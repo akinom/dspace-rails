@@ -1,11 +1,13 @@
 <h1> About <%= @app_name %> </h1>
 
-<p> Rest interaction is handled by a separate gem, which also provides collection,community and item classes: see
-    <a href="https://github.com/akinom/do-dspace-rest.git">do-dspace-rest.git</a></p>
-
+<p> Rest interaction is handled by a separate gem,
+    which also provides collection,community, item, bitstream classes:
+    see <a href="https://github.com/akinom/do-dspace-rest.git">do-dspace-rest.git</a>
+</p>
 <p>
-    The application has generic controllers and views in place wth mechanism to overwrite specific behviours and views,
-    eg the layout framework, which communities to list on the top communities page, or how to display item pages.
+    The application has generic controllers and views in place wth mechanism
+    to overwrite specific behaviours and views.
+    Rendering is done via layouts that insert a view of the data produced in controllers into the content area of the active layout.
 </p>
 
 <h2> Layouts </h2>
@@ -13,14 +15,14 @@
 <h3> Default Layout</h3>
 <p>
     The <%= link_to "Default Layout", root_path %>
-    functionally varies from the core in that is always wants to know the top communities so it can put them on
-    the navbar. To achive this it overwrites the application controllers do_always method as well as the
+    functionally varies from the core in that is always wants to know the top communities, so it can put them on
+    the navbar. It overwrites the application controllers do_always method as well as the
     CommunityControllers top method;
     <br/>
     see
     <a href="https://github.com/akinom/dspace-rails/tree/master/app/controllers/default"> controller
         overwrites </a> and
-    <a href='https://github.com/akinom/dspace-rails/blob/master/app/views/layouts/sitemap.html.erb'> layout </a>
+    <a href='https://github.com/akinom/dspace-rails/blob/master/app/views/layouts/default.html.erb'> layout </a>
 </p>
 
 <h3> Sitemap Layout</h3>
@@ -64,10 +66,13 @@
     modifying the main layout files.
 </p>
 <p>
-    In the <%= link_to "Default Layout", root_path %>
-    the names of the pages action, controller, and
+    In the <%= link_to "default Layout", root_path %> as well as the
+    <%= link_to "Library Layout", :controller => :communities, :action => :top, :layout => 'library' %>
+
+    use the pages action, controller, the currently active layout and
     if available the handle of the displayed dspace object (item, collection, community)
-    and the handles of its parents become css classes of the html body. These classes can be used to do custom styling.
+    and the handles of its parents as css classes of the html body. These classes can
+    be used to do custom styling some custom styling.
     On this page links are shown underlined, because of a custom rule in default.css.
 
     <br/>

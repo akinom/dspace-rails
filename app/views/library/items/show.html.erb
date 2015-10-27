@@ -5,7 +5,7 @@
 <h1> Citation </h1>
 <ul>
     <% @dspace_obj.get('metadata').each do |md| %>
-        <p>
+        <p class="<%= md_to_class(md['key']) %>" >
             <span class="text-primary">
                 <%= md['key'] %>:
             </span>
@@ -20,9 +20,9 @@
     <% if (@bitstreams.empty?) then %>
         <li> No files available for download, Please contatc the library at XXXX for assistance</li>
     <% else %>
-        <% @bitstreams.each do |itm| %>
+        <% @bitstreams.each do |bit| %>
             <li>
-                <%= link_to itm.name, item_path(itm.id) %>
+                <%= link_to bit.name, bitstream_path(bit.id) %>
             </li>
         <% end %>
     <% end %>

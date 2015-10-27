@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     resources :communities, only: [:show]
     resources :collections, only: [:show]
     resources :items, only: [:show]
+    resources :bitstreams, only: [:show]
 
     get 'about' => "application#about"
 

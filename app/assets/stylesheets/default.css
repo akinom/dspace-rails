@@ -1,6 +1,21 @@
 
-.about.application.default  .content a {
+.about.application  .content a {
     text-decoration: underline;
 }
 
 
+/* on item page make .dc-contributor-author bold  */
+.show.items .dc-contributor-author {
+    font-weight: bold;
+}
+
+/* on item view page make when in default layout  make .dc.title bold  */
+.default.show.items .dc-title {
+    font-weight: bold;
+}
+
+/* on item view pages in collection with handle 123456789/4028 'Computer Science'
+   make .dc.title dc.date.accessioned x-small  */
+.hdl-123456789-4875.show.items .dc-date-accessioned {
+    font-size: x-small;
+}

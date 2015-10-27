@@ -44,7 +44,7 @@
 
     The
     <%= link_to "Library Layout", :controller => :communities, :action => :top, :layout => 'library' %> concentrates on
-    building an item page that resembles other search results shown on an imaginary libraries system. It use a different
+    building an item page that resembles other search results shown on an imaginary libraries system. It uses a different
     view renderer for item pages,
 
     <br/> see
@@ -66,13 +66,13 @@
     modifying the main layout files.
 </p>
 <p>
-    In the <%= link_to "default Layout", root_path %> as well as the
+    The <%= link_to "default Layout", root_path %> as well as the
     <%= link_to "Library Layout", :controller => :communities, :action => :top, :layout => 'library' %>
 
     use the pages action, controller, the currently active layout and
     if available the handle of the displayed dspace object (item, collection, community)
     and the handles of its parents as css classes of the html body. These classes can
-    be used to do custom styling some custom styling.
+    be used to do custom styling.
     On this page links are shown underlined, because of a custom rule in default.css.
 
     <br/>

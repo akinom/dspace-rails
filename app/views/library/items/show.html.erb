@@ -4,7 +4,7 @@
 
 <h1> Citation </h1>
 <ul>
-    <% @dspace_obj.attributes['metadata'].each do |md| %>
+    <% @dspace_obj.get('metadata').each do |md| %>
         <p>
             <span class="text-primary">
                 <%= md['key'] %>:

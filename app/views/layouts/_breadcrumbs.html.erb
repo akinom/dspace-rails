@@ -1,7 +1,7 @@
 <ol class="breadcrumb">
         <li> <a href="/"> Home </a> </li>
         <% @dspace_obj_parents.reverse.each do |p| %>
-            <li>  <%= p['name'] %> </li>
+            <li>  <%= p.name %> </li>
         <% end %>
 </ol>
 

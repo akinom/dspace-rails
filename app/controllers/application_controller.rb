@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
   def set_dspace_obj(klass, expand = [])
     # expand nothing
     @dspace_obj = klass.find_by_id(params[:id], expand)
-    @dspace_obj_parents = dspace_obi_parents(@dspace_obj)
+    @dspace_obj_parents = @dspace_obj.parent_list
     @dspace_obj
   end
 
@@ -57,11 +57,11 @@ class ApplicationController < ActionController::Base
 
   public
   def set(sym, value)
-    eval "@#{sym.to_s} = value"
+    self.instance_variable_set("@" + sym.to_s, value)
   end
 
   def get(sym)
-    eval "@#{sym.to_s}"
+    self.instance_variable_get("@" + sym.to_s)
   end
 
   private
@@ -86,22 +86,6 @@ class ApplicationController < ActionController::Base
     puts "#{method}: no overwriter " unless @overwriter
     puts "#{method}: no #{@overwriter.class}.#{method} " if @overwriter
     return nil
-  end
-
-  private
-  # TODO: this should be part of the dspace-rest gem
-  # and parents should be a list of Collectcon, and Community objects
-  def dspace_obi_parents(obj)
-    parents = []
-    if  obj  then
-      list = @dspace_obj.attributes['parentCollectionList'];
-      parents = list if list
-      com = @dspace_obj.attributes['parentCommunity']
-      parents << com if com
-      list = @dspace_obj.attributes['parentCommunityList'];
-      parents += list if list and list.size > 0
-    end
-    parents
   end
 
 end

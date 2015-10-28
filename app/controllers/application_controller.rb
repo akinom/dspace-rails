@@ -5,6 +5,11 @@ class ApplicationController < ActionController::Base
 
   before_action :do_always
 
+  def handle
+    @handle = params[:part1] + "/" + params[:part2];
+    render :action => 'todo'
+  end
+
   def about
     do_overwrite(:about)
   end

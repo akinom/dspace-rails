@@ -11,6 +11,8 @@ Rails.application.routes.draw do
 
     get 'about' => "application#about"
 
+    get '/handle/:part1/:part2', to:  "application#handle", as: 'handle'
+
     ['search'].each do |action|
       get action => "application#todo"
     end

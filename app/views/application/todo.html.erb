@@ -1,19 +1,5 @@
 <h1> TODO <%= @app_name %> </h1>
 
-<h3> params </h3>
 <p>
-    <%= params.inspect %>
-</p>
-
-<h3> instance_variables </h3>
-<p>
-<ul>
-    <% self.instance_variables.each do |v| %>
-        <% name = v.id2name;
-           next if name.start_with?("@_")
-           next if %w(@view_flow @view_renderer @output_buffer @virtual_path).index(name)
-           next if %w(@marked_for_same_origin_verification @output_buffer).index(name) %>
-        <li>  <%= v.id2name %> :: <%= self.instance_variable_get(v) %>  </li>
-    <% end %>
-</ul>
+And not yet done
 </p>

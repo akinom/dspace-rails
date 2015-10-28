@@ -22,19 +22,18 @@
 <!-- this layout shoud only be triggered if someting goes wrong -->
 <div class="container">
 
-<%= render partial: 'layouts/header' %>
+    <%= render partial: 'layouts/header' %>
 
-<div class="container" style="margin-top: 64px">
-    <div class="content">
-        <div class="ds_notice alert-success"><%= notice %></div>
-        <div class="ds_alert alert-danger"><%= alert %></div>
-        <%= yield %>
+    <div class="container" style="margin-top: 64px">
+        <div class="content">
+            <div class="ds_notice alert-success"><%= notice %></div>
+            <div class="ds_alert alert-danger"><%= alert %></div>
+            <%= yield %>
+        </div>
+
+        <%= render partial: 'layouts/footer' %>
+
     </div>
-
-    <%= render partial: 'layouts/footer' %>
-
-</div>
-
 
 </body>
 </html>

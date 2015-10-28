@@ -1,4 +1,8 @@
-
+.debug {
+    background-color: black;
+    color: white;
+    padding: 1em;
+}
 .about.application  .content a {
     text-decoration: underline;
 }

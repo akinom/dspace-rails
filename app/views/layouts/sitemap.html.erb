@@ -5,6 +5,10 @@
 </head>
 
 <body class='<%= "action_#{params['action']}" %> <%= "controller_#{params['controller']}" %>'>
-    <%= yield %>
+    <div>
+        <%= yield %>
+    </div>
+    <%= render partial: 'application/debug' %>
+
 </body>
 </html>

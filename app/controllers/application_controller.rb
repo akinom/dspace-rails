@@ -33,6 +33,7 @@ class ApplicationController < ActionController::Base
 
     @layout = params['layout']
     @overwriter = find_overwriter(self.class)
+1/0
     do_overwrite(:do_always)
   end
 

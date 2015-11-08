@@ -1,9 +1,7 @@
-GIT
-  remote: https://github.com/akinom/do-dspace-rest.git
-  revision: be5880adc1188a12413bb4df39be39d97238e0e3
-  branch: master
+PATH
+  remote: /Users/monikam/DSpaces/srcs/restspace/scripts/do-dsapce-rest
   specs:
-    dspace-rest (0.0.1)
+    dspace-rest (0.0.2)
       json (~> 1.8)
       rest-client (~> 1.8)
       rspec-core (~> 3.3)

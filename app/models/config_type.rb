@@ -1,8 +1,15 @@
 class ConfigType < ActiveRecord::Base
 
+  has_many :config_values
+
   validates_presence_of :klass, :name
 
   validate :klass_valid?
+
+  def type
+    return Class.const_get(klass) if Class.const_defined?(klass)
+    return nil
+  end
 
   def klass_valid?
     return false unless klass

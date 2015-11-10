@@ -2,24 +2,19 @@ class ConfigType < ActiveRecord::Base
 
   validates_presence_of :klass, :name
 
-  validate :check_klass
+  validate :klass_valid?
 
-  def check_klass
+  def klass_valid?
     return false unless klass
     if klass.is_a? String then
-      begin
-        Class.const_get(klass)
-      rescue
-        errors[:klass] = "#{self.klass} is not a valid class name"
-        self.klass = nil
-      end
+      self.klass = nil unless Class.const_defined?(klass)
     elsif klass.class == Class then
       self.klass = klass.class.name
     else
-      errors[:klass] = "#{klass} is neither s String nor a Class"
       self.klass = nil
     end
-    return  self.klass != nil
+    errors.add :klass, "#{klass} is not a Class nor a Class Name" unless self.klass
+    not self.klass.nil?
   end
 
 end

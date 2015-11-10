@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe ConfigType, type: :model do
   it :create_with_klass_string_and_name do
-    c = ConfigType.create!(:klass => 'String', :name => "a string")
-    c.save!
+    ConfigType.create!(:klass => 'String', :name => "a string")
+    ConfigType.create!(:klass => String, :name => "another string")
   end
 
   it :create_without_klass do
@@ -13,28 +13,26 @@ RSpec.describe ConfigType, type: :model do
 
   it :create_with_bad_klass_name do
     c = ConfigType.new(:klass => "no_klass", :name => 'name')
-    expect(c.valid?).to be false
-    expect(c.errors.messages[:klass]).to be_a Array
+    expect { c.klass_valid? }.to raise_error(NameError)
   end
 
   it :create_with_bad_klass do
     c = ConfigType.new(:klass => 10, :name => 'name')
-    expect(c.valid?).to be false
-    expect(c.errors.messages[:klass]).to be_a Array
+    expect { c.klass_valid? }.to raise_error(NameError)
   end
 
   it :create_without_name do
     c = ConfigType.create(:klass => 'String')
-    expect(c.save).to be false
+    expect(c.valid?).to be false
   end
   it :create_with_nil_name do
     c = ConfigType.create(:klass => 'String', :name => nil)
-    expect(c.save).to be false
+    expect(c.valid?).to be false
   end
 
   it :create_with_empty_name do
     c = ConfigType.create(:klass => 'String', :name => "")
-    expect(c.save).to be false
+    expect(c.valid?).to be false
   end
 
   it :set_get_klass do

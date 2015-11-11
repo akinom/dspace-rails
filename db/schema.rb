@@ -27,7 +27,7 @@ ActiveRecord::Schema.define(version: 20151110012203) do
 
   create_table "config_values", force: :cascade do |t|
     t.integer  "config_type_id"
-    t.text     "value"
+    t.text     "yaml_value"
     t.string   "layout"
     t.string   "controller"
     t.string   "context"

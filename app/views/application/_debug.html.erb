@@ -7,7 +7,7 @@
     <div> instance_variables </div>
 
     <ul>
-        <% self.instance_variables.each do |v| %>
+        <% self.instance_variables.sort.each do |v| %>
             <% name = v.id2name;
                next if name.start_with?("@_")
                next if %w(@view_flow @view_renderer @output_buffer @virtual_path).index(name)

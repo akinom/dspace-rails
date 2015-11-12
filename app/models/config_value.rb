@@ -16,7 +16,7 @@ class ConfigValue < ActiveRecord::Base
 
   def value=(v)
     @value = v
-    yaml_value = v.to_yaml
+    self.yaml_value = v.to_yaml
   end
 
   def controller_valid?
@@ -29,7 +29,6 @@ class ConfigValue < ActiveRecord::Base
       return false
     end
   end
-
 
   def value_valid?
     return false if config_type.nil?
@@ -46,4 +45,14 @@ class ConfigValue < ActiveRecord::Base
     return false;
   end
 
-end
+  def inspect
+    "#<#{self.class} "  + { :id => id, "#{config_type.id}:#{config_type.name}" => value, :l => layout, :ctrl => controller}.inspect + ">"
+  end
+
+  def self.resolve(hsh)
+    layout, crtl, ctxt  = [hsh[:layout], hsh[:controller], hsh[:context]];
+    ctrl = ctrl.name if ctrl.is_a? Class
+
+  end
+
+  end

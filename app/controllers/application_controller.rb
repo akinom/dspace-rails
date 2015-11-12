@@ -21,6 +21,10 @@ class ApplicationController < ActionController::Base
     # expand nothing
     @dspace_obj = klass.find_by_id(params[:id], expand)
     @dspace_obj_parents = @dspace_obj.parent_list
+    @dspace_obj_parents.reverse.each do |p|
+      @configs = @configs.merge(compute_configs(p))
+    end
+    @configs = @configs.merge(compute_configs(@dspace_obj))
     @dspace_obj
   end
 
@@ -34,6 +38,8 @@ class ApplicationController < ActionController::Base
     @layout = params['layout']
     @overwriter = find_overwriter(self.class)
     do_overwrite(:do_always)
+
+    @configs = compute_configs(nil)
   end
 
   # app/controllers/application_controller.rb
@@ -93,4 +99,7 @@ class ApplicationController < ActionController::Base
     return nil
   end
 
+  def compute_configs(ctxt)
+    ConfigValue.resolve(:layout => @layout, :controller => self.class, :context => ctxt)
+  end
 end

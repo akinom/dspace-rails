@@ -62,4 +62,15 @@ RSpec.describe ConfigValue, type: :model do
     expect(c.errors.messages[:controller]).to_not be_nil
   end
 
+  it 'resolve' do
+    [{:controller => 'ApplicationController', :layout => 'library', :context => nil, :value => 'layout,controller' },
+    {:controller => 'ApplicationController', :context => nil, :value => '*,controller'},
+    {:layout => 'library', :context => nil, :value => 'library,* '},
+    {:value => '*,*'}].each do |hsh|
+      ConfigValue.create( {:config_type => @type_any_obj }.merge(hsh))
+    end
+
+    ConfigValue.destroy_all
+  end
+
 end

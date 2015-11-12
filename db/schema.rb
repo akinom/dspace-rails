@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151110012203) do
+ActiveRecord::Schema.define(version: 20151112135935) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,11 +28,10 @@ ActiveRecord::Schema.define(version: 20151110012203) do
   create_table "config_values", force: :cascade do |t|
     t.integer  "config_type_id"
     t.text     "yaml_value"
-    t.string   "layout"
-    t.string   "controller"
     t.string   "context"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
+    t.string   "scope"
   end
 
   create_table "users", force: :cascade do |t|

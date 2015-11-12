@@ -12,16 +12,15 @@ RSpec.describe ConfigValue, type: :model do
     end
 
     @create_fix_num = {
-        :controller => 'ItemsController',
-        :layout => "layout",
+        :scope => "rspec",
         :config_type => @type_fix_num,
         :value => 1
     }
 
     @create_any_obj = {
-        :controller => 'ApplicationController',
-        :layout => "library",
-        :config_type => @type_any_obj
+        :scope => "layout:library",
+        :config_type => @type_any_obj,
+        :value => nil
     }
   end
 
@@ -30,7 +29,7 @@ RSpec.describe ConfigValue, type: :model do
     @type_any_obj.destroy
   end
 
-  [:remove_none, :controller, :layout, :context].each do |key|
+  [:remove_none, :scope, :context].each do |key|
     it "create_fixnum_without_#{key}" do
       @hsh = @create_fix_num.clone
       @hsh.delete(key)
@@ -41,7 +40,7 @@ RSpec.describe ConfigValue, type: :model do
 
   [10, "string", :symbol, {h: 'hash'}, [1, 2, 3, 4]].each do |value|
     it "create_any_obj_with_value=#{value}" do
-      c = ConfigValue.create!({:value => value}.merge(@create_any_obj))
+      c = ConfigValue.create!(@create_any_obj.merge :value => value)
       expect(c.value).to eq(value)
     end
   end
@@ -56,18 +55,11 @@ RSpec.describe ConfigValue, type: :model do
     end
   end
 
-  it "create_with_bad_controller" do
-    c = ConfigValue.new(@create_fix_num.merge(:controller => 'BadController'))
-    expect(c.valid?).to eq(false)
-    expect(c.errors.messages[:controller]).to_not be_nil
-  end
-
   it 'resolve' do
-    [{:controller => 'ApplicationController', :layout => 'library', :context => nil, :value => 'layout,controller' },
-    {:controller => 'ApplicationController', :context => nil, :value => '*,controller'},
-    {:layout => 'library', :context => nil, :value => 'library,* '},
-    {:value => '*,*'}].each do |hsh|
-      ConfigValue.create( {:config_type => @type_any_obj }.merge(hsh))
+    [{:scope => nil, :context => nil, :value => '*,*' },
+        {:scope => 'layout:library', :context => nil, :value => 'layout:library,*'},
+        {:scope => 'layout:library', :context => "context", :value => 'layout:library,context'}].each do |hsh|
+      ConfigValue.create( hsh.merge :config_type => @type_any_obj )
     end
 
     ConfigValue.destroy_all

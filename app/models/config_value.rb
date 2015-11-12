@@ -2,7 +2,7 @@ class ConfigValue < ActiveRecord::Base
   belongs_to :config_type
 
   validates_presence_of :config_type
-  validate :value_valid?, :controller_valid?
+  validate :value_valid?
 
   def initialize(hsh)
     v = hsh[:value]
@@ -17,17 +17,6 @@ class ConfigValue < ActiveRecord::Base
   def value=(v)
     @value = v
     self.yaml_value = v.to_yaml
-  end
-
-  def controller_valid?
-    return true if controller.nil?
-    begin
-      controller.constantize
-      return true
-    rescue
-      errors.add :controller, "#{controller} is not a valid controller class name"
-      return false
-    end
   end
 
   def value_valid?
@@ -46,13 +35,11 @@ class ConfigValue < ActiveRecord::Base
   end
 
   def inspect
-    "#<#{self.class} "  + { :id => id, "#{config_type.id}:#{config_type.name}" => value, :l => layout, :ctrl => controller}.inspect + ">"
+    "#<#{self.class} "  + { :id => id, "#{config_type.id}:#{config_type.name}" => value, :scope => scope}.inspect + ">"
   end
 
-  def self.resolve(hsh)
-    layout, crtl, ctxt  = [hsh[:layout], hsh[:controller], hsh[:context]];
-    ctrl = ctrl.name if ctrl.is_a? Class
-
+  def self.resolve(scope, contexts)
+      ConfigValue.all.collect { |v| v.inspect }
   end
 
   end

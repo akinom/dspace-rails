@@ -24,7 +24,6 @@ class ApplicationController < ActionController::Base
     @dspace_obj_parents.reverse.each do |p|
       @configs = @configs.merge(compute_configs(p))
     end
-    @configs = @configs.merge(compute_configs(@dspace_obj))
     @dspace_obj
   end
 
@@ -38,8 +37,6 @@ class ApplicationController < ActionController::Base
     @layout = params['layout']
     @overwriter = find_overwriter(self.class)
     do_overwrite(:do_always)
-
-    @configs = compute_configs(nil)
   end
 
   # app/controllers/application_controller.rb
@@ -48,6 +45,12 @@ class ApplicationController < ActionController::Base
   end
 
   def render(*args, &block)
+    unless @configs
+      contexts = @dspace_obj_parents.collect { |d| d.handle }
+      contexts << @dspace_obj.handle if @dspace_obj
+      contexts << current_user.email if current_user
+      @configs = ConfigValue.resolve(@layout, contexts)
+    end
     args[0] = {} unless args[0]
     args[0][:layout] = args[0][:layout] || params['layout']
     template = args[0][:template]
@@ -99,7 +102,4 @@ class ApplicationController < ActionController::Base
     return nil
   end
 
-  def compute_configs(ctxt)
-    ConfigValue.resolve(:layout => @layout, :controller => self.class, :context => ctxt)
-  end
 end

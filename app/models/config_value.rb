@@ -38,8 +38,12 @@ class ConfigValue < ActiveRecord::Base
     "#<#{self.class} "  + { :id => id, "#{config_type.id}:#{config_type.name}" => value, :scope => scope}.inspect + ">"
   end
 
-  def self.resolve(scope, contexts)
-      ConfigValue.all.collect { |v| v.inspect }
+  def self.resolve(actualScopes)
+    hsh = {}
+    actualScopes.each do |s|
+      matches =  ConfigValue.where(:scope => s).each { |v| hsh[v.config_type.name.underscore.to_sym] = v.value}
+    end
+    return hsh
   end
 
   end

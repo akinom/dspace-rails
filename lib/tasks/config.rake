@@ -5,7 +5,7 @@ namespace :config do
   end
 
   task seed: :environment do
-    %w(ContactEmail ApplicationName CollectionDescription).each do |config|
+    %w(ContactEmail AppName CollectionDescription).each do |config|
       ConfigType.find_or_create_by(name: config) do |type|
         type.klass = String
       end
@@ -14,7 +14,7 @@ namespace :config do
     ConfigValue.find_or_create_by(scope: nil, config_type: ConfigType.find_by_name('ContactEmail')) do |val|
       val.value = "contact@university,edu"
     end
-    ConfigValue.find_or_create_by(scope: nil, config_type: ConfigType.find_by_name('ApplicationName')) do |val|
+    ConfigValue.find_or_create_by(scope: nil, config_type: ConfigType.find_by_name('AppName')) do |val|
       val.value = "RailsSpace"
     end
     ConfigValue.find_or_create_by(scope: nil, config_type: ConfigType.find_by_name('CollectionDescription')) do |val|
@@ -24,7 +24,7 @@ namespace :config do
     descr = ConfigType.find_by_name('CollectionDescription')
     DSpace::Rest::Community.topCommuities(:linit => 10000).each do |com|
       if (com.name[0] <= 'M') then
-        value = "Describing this very top community with words about #{com.name}"
+        value = "Describing this very content with words about #{com.name}"
         val = ConfigValue.find_by(config_type: descr, :scope => com.handle)
         val ||= ConfigValue.new(config_type: descr, :scope => com.handle)
         val.value = value

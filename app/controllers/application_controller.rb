@@ -21,15 +21,10 @@ class ApplicationController < ActionController::Base
     # expand nothing
     @dspace_obj = klass.find_by_id(params[:id], expand)
     @dspace_obj_parents = @dspace_obj.parent_list
-    @dspace_obj_parents.reverse.each do |p|
-      @configs = @configs.merge(compute_configs(p))
-    end
     @dspace_obj
   end
 
   def do_always
-    @app_name = "DspaceRails"
-    @contact_email = "contact@myplace.edu"
 
     # if dspace_obj_parents noy set by set_dspace_obj  default to []
     @dspace_obj_parents = [] unless @dspace_obj_parents
@@ -45,12 +40,14 @@ class ApplicationController < ActionController::Base
   end
 
   def render(*args, &block)
-    unless @configs
-      contexts = @dspace_obj_parents.collect { |d| d.handle }
+    unless @config
+      contexts = [nil]
+      contexts << @dspace_obj_parents.collect { |d| d.handle }
       contexts << @dspace_obj.handle if @dspace_obj
       contexts << current_user.email if current_user
-      @configs = ConfigValue.resolve(@layout, contexts)
+      @config = ConfigValue.resolve(contexts)
     end
+
     args[0] = {} unless args[0]
     args[0][:layout] = args[0][:layout] || params['layout']
     template = args[0][:template]
@@ -60,46 +57,46 @@ class ApplicationController < ActionController::Base
       overwrite = "#{args[0][:layout]}/#{controller}/#{action}"
       if (template_exists?(overwrite)) then
         args[0][:template] = overwrite
+        end
       end
+      # TODO figure out how to call   AbstractController::Rendering render on self
+      options = _normalize_render(*args, &block)
+      self.response_body = render_to_body(options)
+      _process_format(rendered_format, options) if rendered_format
+      self.response_body
     end
-    # TODO figure out how to call   AbstractController::Rendering render on self
-    options = _normalize_render(*args, &block)
-    self.response_body = render_to_body(options)
-    _process_format(rendered_format, options) if rendered_format
-    self.response_body
-  end
 
-  public
-  def set(sym, value)
-    self.instance_variable_set("@" + sym.to_s, value)
-  end
-
-  def get(sym)
-    self.instance_variable_get("@" + sym.to_s)
-  end
-
-  private
-  def find_overwriter(klass)
-    return nil if klass.class != Class;
-    over = nil
-    begin
-      overwriterklass = "#{@layout.camelcase}::#{klass.to_s.chomp('Controller')}Overwrite"
-      over = Class.const_get(overwriterklass).new
-    rescue Exception => e
-      over = find_overwriter(klass.ancestors[1])
+    public
+    def set(sym, value)
+      self.instance_variable_set("@" + sym.to_s, value)
     end
-    over
-  end
 
-  protected
-  def do_overwrite(method)
-    if (@overwriter and @overwriter.respond_to?(method)) then
-      puts "#{method}: call #{@overwriter.class}.#{method}"
-      return @overwriter.send method, self
+    def get(sym)
+      self.instance_variable_get("@" + sym.to_s)
     end
-    puts "#{method}: no overwriter " unless @overwriter
-    puts "#{method}: no #{@overwriter.class}.#{method} " if @overwriter
-    return nil
-  end
 
-end
+    private
+    def find_overwriter(klass)
+      return nil if klass.class != Class;
+      over = nil
+      begin
+        overwriterklass = "#{@layout.camelcase}::#{klass.to_s.chomp('Controller')}Overwrite"
+        over = Class.const_get(overwriterklass).new
+      rescue Exception => e
+        over = find_overwriter(klass.ancestors[1])
+      end
+      over
+    end
+
+    protected
+    def do_overwrite(method)
+      if (@overwriter and @overwriter.respond_to?(method)) then
+        puts "#{method}: call #{@overwriter.class}.#{method}"
+        return @overwriter.send method, self
+      end
+      puts "#{method}: no overwriter " unless @overwriter
+      puts "#{method}: no #{@overwriter.class}.#{method} " if @overwriter
+      return nil
+    end
+
+  end

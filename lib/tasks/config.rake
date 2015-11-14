@@ -50,7 +50,9 @@ namespace :config do
       end
       if (com.name[0] == 'M') then
         display =  ConfigType.find_by_name('ItemDisplay')
-        value = {short_metadata_list: %w(dc.contributor.author dc.title)}
+        value = {detail_metadata_list:
+                     %w(dc.contributor.author dc.title
+                                dc.relation.ispartofseries dc.publisher dc.date.issue) }
         val = ConfigValue.find_by(config_type: display, :scope => com.handle)
         val ||= ConfigValue.new(config_type: display, :scope => com.handle)
         val.value = value

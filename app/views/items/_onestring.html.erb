@@ -1,0 +1,10 @@
+<%=
+   strings = attributes.values.collect do |v|
+     if v.is_a? Array then
+       v.join(", ")
+     else
+       v
+     end
+   end
+   strings.join(", ")
+%>

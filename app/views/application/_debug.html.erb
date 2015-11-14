@@ -12,7 +12,7 @@
                next if name.start_with?("@_")
                next if %w(@view_flow @view_renderer @output_buffer @virtual_path).index(name)
                next if %w(@marked_for_same_origin_verification @output_buffer).index(name) %>
-            <li>  <%= v.id2name %> :: <%= self.instance_variable_get(v) %>  </li>
+            <li>  <%= v.id2name %> :: <%= debug_inspect(self.instance_variable_get(v)) %>  </li>
         <% end %>
     </ul>
 </div>

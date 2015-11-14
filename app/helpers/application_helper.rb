@@ -10,4 +10,13 @@ module ApplicationHelper
   def md_to_class(metadata)
     metadata.gsub('.', '-')
   end
+
+  def debug_inspect(value)
+    if value.respond_to? :collect then
+      vals = value.collect { |e| content_tag(:li, h(e.inspect)) }
+      return content_tag :ul, vals.join("\n").html_safe unless vals.empty?
+    end
+    return value.inspect unless value.nil?
+    return "nil"
+  end
 end

@@ -11,6 +11,7 @@ class ConfigValue < ActiveRecord::Base
   end
 
   def value
+    nil unless yaml_value
     @value ||= YAML.load(yaml_value)
   end
 
@@ -41,7 +42,15 @@ class ConfigValue < ActiveRecord::Base
   def self.resolve(actualScopes)
     hsh = {}
     actualScopes.each do |s|
-      matches =  ConfigValue.where(:scope => s).each { |v| hsh[v.config_type.name.underscore.to_sym] = v.value}
+      matches =  ConfigValue.where(:scope => s).each do  |v|
+        key = v.config_type.name.underscore.to_sym
+        if v.value.is_a? Hash then
+          hsh[key] ||= {}
+          hsh[key] = hsh[key].merge(v.value)
+        else
+          hsh[key] = v.value
+        end
+      end
     end
     return hsh
   end

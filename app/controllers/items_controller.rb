@@ -1,9 +1,9 @@
 class ItemsController < ApplicationController
   before_action :set_obj, only: [:show]
+  before_action  :call_layout_method
 
   # GET /colections/1
   def show
-    do_overwrite(:show)
     @bitstreams = @dspace_obj.bitstreams({})
   end
 

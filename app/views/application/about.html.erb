@@ -16,11 +16,11 @@
 <p>
     The <%= link_to "Default Layout", root_path %>
     functionally varies from the core in that is always wants to know the top communities, so it can put them on
-    the navbar. It overwrites the application controllers do_always method as well as the
-    CommunityControllers top method;
+    the navbar. It augments the application controllers do_always method as well as the
+    CommunityControllers top method; In addition it wants to know the metadata of items when showing a collection.
     <br/>
     see
-    <a href="https://github.com/akinom/dspace-rails/tree/master/app/controllers/default"> controller
+    <a href="https://github.com/akinom/dspace-rails/tree/master/app/controllers/concerns/default"> controller
         overwrites </a> and
     <a href='https://github.com/akinom/dspace-rails/blob/master/app/views/layouts/default.html.erb'> layout </a>
 </p>
@@ -32,7 +32,7 @@
     show top communities with titles that start with the letters M-Z. Collection pages show more thant the default 10
     items.
     <br/> see
-    <a href="https://github.com/akinom/dspace-rails/tree/master/app/controllers/sitemap"> controller
+    <a href="https://github.com/akinom/dspace-rails/tree/master/app/controllers/concerns/sitemap"> controller
         overwrites </a> and
     <a href='https://github.com/akinom/dspace-rails/blob/master/app/views/layouts/sitemap.html.erb'> layout </a>
 </p>
@@ -61,17 +61,31 @@
 </p>
 
 <p>
-    Adding a logo, adding a link to the header secrion or whether to include bread crumbs on pages is done by
+    Adding a logo, adding a link to the header section or whether to include bread crumbs on pages is done by
     modifying the main layout files.
 </p>
 <p>
     The <%= link_to "default Layout", root_path %> as well as the
     <%= link_to "Library Layout", :controller => :communities, :action => :top, :layout => 'library' %>
 
-    use the pages action, controller, the currently active layout and
-    if available the handle of the displayed dspace object (item, collection, community)
-    and the handles of its parents as css classes of the html body. These classes can
-    be used to do custom styling.
+    add css classes to a pages main body area:
+    <ul>
+        <li>
+            the controller name, eg 'application'
+        </li>
+        <li>
+            the action name, eg 'show'
+        </li>
+        <li>
+            the active layout, eg 'library'
+        </li>
+        <li>
+            if available the handle of the displayed dspace object (item, collection, community)
+            and the handles of its parents
+        </li>
+
+    </ul>
+
     On this page links are shown underlined, because of a custom rule in default.css.
 
     <br/>

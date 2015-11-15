@@ -11,27 +11,24 @@ class ApplicationController < ActionController::Base
   end
 
   def about
-    do_overwrite(:about)
   end
 
   def todo
   end
 
   def set_dspace_obj(klass, expand = [])
-    # expand nothing
     @dspace_obj = klass.find_by_id(params[:id], expand)
     @dspace_obj_parents = @dspace_obj.parent_list
     @dspace_obj
   end
 
   def do_always
-
-    # if dspace_obj_parents noy set by set_dspace_obj  default to []
+    # if dspace_obj_parents not set by set_dspace_obj  default to []
     @dspace_obj_parents = [] unless @dspace_obj_parents
 
     @layout = params['layout']
-    @overwriter = find_overwriter(self.class)
-    do_overwrite(:do_always)
+    load_layout_concerns
+    call_layout_method :do_always
   end
 
   # app/controllers/application_controller.rb
@@ -65,37 +62,31 @@ class ApplicationController < ActionController::Base
     plain_render(*args, &block)
   end
 
-    public
-    def set(sym, value)
-      self.instance_variable_set("@" + sym.to_s, value)
-    end
 
-    def get(sym)
-      self.instance_variable_get("@" + sym.to_s)
+  def call_layout_method(actn = nil)
+    mthd = "#{@layout}_#{actn || params['action']}"
+    if respond_to? mthd
+      puts "> mthd"
+      self.send mthd
+      puts "< mthd"
     end
-
-    private
-    def find_overwriter(klass)
-      return nil if klass.class != Class;
-      over = nil
-      begin
-        overwriterklass = "#{@layout.camelcase}::#{klass.to_s.chomp('Controller')}Overwrite"
-        over = Class.const_get(overwriterklass).new
-      rescue Exception => e
-        over = find_overwriter(klass.ancestors[1])
-      end
-      over
-    end
-
-    protected
-    def do_overwrite(method)
-      if (@overwriter and @overwriter.respond_to?(method)) then
-        puts "#{method}: call #{@overwriter.class}.#{method}"
-        return @overwriter.send method, self
-      end
-      puts "#{method}: no overwriter " unless @overwriter
-      puts "#{method}: no #{@overwriter.class}.#{method} " if @overwriter
-      return nil
-    end
-
   end
+
+  @@tried_layout_explansion = {}
+
+  def load_layout_concerns
+    ["application", params['controller']].each do |ctrler|
+      file = "#{@layout}/#{ctrler}_controller.rb"
+      unless false && @@tried_layout_explansion[file]
+        begin
+          puts "try #{file}"
+          require file
+        rescue Exception => e
+          puts "no such #{file}"
+        end
+        @@tried_layout_explansion[file] = true
+      end
+    end
+  end
+
+end

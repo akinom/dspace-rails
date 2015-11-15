@@ -1,0 +1,18 @@
+
+<h1> Config Type:  <%= @config_type.name %> </h1>
+
+<p>
+  <strong>Klass:</strong>
+  <%= @config_type.klass %>
+</p>
+
+<h2> Values </h2>
+<%= @config_values = @config_type.config_values;
+    render "/config_values/list"
+    %>
+<p>
+
+</p>
+<%= link_to 'Edit', edit_config_type_path(@config_type) %> |
+<%= link_to 'Create New Value', new_config_type_config_value_path(@config_type) %> |
+<%= link_to 'List All Configs', config_types_path %>

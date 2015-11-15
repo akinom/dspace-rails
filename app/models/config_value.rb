@@ -4,14 +4,14 @@ class ConfigValue < ActiveRecord::Base
   validates_presence_of :config_type
   validate :value_valid?
 
-  def initialize(hsh)
+  def initialize(hsh = {})
     v = hsh[:value]
     hsh[:yaml_value] = v.to_yaml unless v.nil?
     super(hsh)
   end
 
   def value
-    nil unless yaml_value
+    return nil unless yaml_value
     @value ||= YAML.load(yaml_value)
   end
 
@@ -36,7 +36,13 @@ class ConfigValue < ActiveRecord::Base
   end
 
   def inspect
-    "#<#{self.class} "  + { :id => id, "#{config_type.id}:#{config_type.name}" => value, :scope => scope}.inspect + ">"
+    s = "#<#{self.class}"
+    s += " id:#{id}" if id
+    s += " #{config_type.id}:#{config_type.name}" if config_type
+    s += " val=#{value}" if value
+    s += " scope=#{scope}" if scope
+    s += ">"
+    return s
   end
 
   def self.resolve(actualScopes)

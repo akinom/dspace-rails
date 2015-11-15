@@ -1,0 +1,13 @@
+
+<p>
+  <strong>Scope:</strong>
+  <%= @config_value.scope %>
+</p>
+
+<p>
+  <strong>Value:</strong>
+  <%= @config_value.value.inspect %>
+</p>
+
+<%= link_to 'Edit', edit_config_value_path(@config_value) %> |
+<%= link_to 'Back', config_values_path %>

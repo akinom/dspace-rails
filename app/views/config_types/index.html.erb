@@ -1,0 +1,26 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Configs</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th> Actions </th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <% @config_types.each do |config| %>
+        <tr>
+            <td> <%= link_to config.name, config  %>  &nbsp; </td>
+            <td> <%= config.klass %> &nbsp;&nbsp; </td>
+            <td> <%= link_to 'Show', config %>  | <%= link_to 'Edit', edit_config_type_path(config) %> |  <%= link_to 'Destroy', config, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+    <% end %>
+    </tbody>
+</table>
+
+
+<%= link_to 'New Config', new_config_type_path %>

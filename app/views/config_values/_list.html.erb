@@ -1,0 +1,23 @@
+<table>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Scope</th>
+        <th>Value</th>
+        <th colspan="3"></th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <% @config_values.each do |config_value| %>
+        <tr>
+            <td><%= link_to config_value.config_type.name, config_type_path(config_value.config_type) %> &nbsp;</td>
+            <td><%= config_value.scope %> &nbsp;</td>
+            <td width="50%"><%= config_value.value.inspect %> &nbsp; &nbsp;</td>
+            <td><%= link_to 'Show', config_value %>|
+                <%= link_to 'Edit', edit_config_value_path(config_value) %> |
+                <%= link_to 'Destroy', config_value, method: :delete, data: {confirm: 'Are you sure?'} %></td>
+        </tr>
+    <% end %>
+    </tbody>
+</table>

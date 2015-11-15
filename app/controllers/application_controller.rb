@@ -47,15 +47,18 @@ class ApplicationController < ActionController::Base
       @config = ConfigValue.resolve(contexts)
     end
 
+
     args[0] = {} unless args[0]
-    args[0][:layout] = args[0][:layout] || params['layout']
-    template = args[0][:template]
-    if (template.nil?) then
-      controller = args[0][:controller] || params['controller']
-      action = args[0][:action] || params['action']
-      overwrite = "#{args[0][:layout]}/#{controller}/#{action}"
-      if (template_exists?(overwrite)) then
-        args[0][:template] = overwrite
+    unless args[0].class == Symbol
+      args[0][:layout] = args[0][:layout] || params['layout']
+      template = args[0][:template]
+      if (template.nil?) then
+        controller = args[0][:controller] || params['controller']
+        action = args[0][:action] || params['action']
+        overwrite = "#{args[0][:layout]}/#{controller}/#{action}"
+        if (template_exists?(overwrite)) then
+          args[0][:template] = overwrite
+        end
       end
     end
 

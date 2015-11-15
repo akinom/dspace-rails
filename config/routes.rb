@@ -4,10 +4,15 @@ Rails.application.routes.draw do
 
   scope "/:layout" do
 
-    resources :communities, only: [:show]
-    resources :collections, only: [:show]
+    resources :communities, :only =>[:show]
+    resources :collections, :only =>[:show]
     resources :items, only: [:show]
     resources :bitstreams, only: [:show]
+
+    resources :config_types do
+      resources :config_values, :only =>[:index, :new, :create, :update]
+    end
+    resources :config_values, :except => [:new, :create, :update]
 
     get 'about' => "application#about"
 

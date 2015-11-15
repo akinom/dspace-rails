@@ -39,6 +39,8 @@ class ApplicationController < ActionController::Base
     {layout: @layout}.merge options
   end
 
+  alias_method :plain_render, :render
+
   def render(*args, &block)
     unless @config
       contexts = [nil]
@@ -57,14 +59,11 @@ class ApplicationController < ActionController::Base
       overwrite = "#{args[0][:layout]}/#{controller}/#{action}"
       if (template_exists?(overwrite)) then
         args[0][:template] = overwrite
-        end
       end
-      # TODO figure out how to call   AbstractController::Rendering render on self
-      options = _normalize_render(*args, &block)
-      self.response_body = render_to_body(options)
-      _process_format(rendered_format, options) if rendered_format
-      self.response_body
     end
+
+    plain_render(*args, &block)
+  end
 
     public
     def set(sym, value)

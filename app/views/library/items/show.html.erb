@@ -3,17 +3,17 @@
 </p>
 
 <h1> Citation </h1>
-<ul>
-    <% @dspace_obj.get('metadata').each do |md| %>
-        <p class="<%= md_to_class(md['key']) %>" >
-            <span class="text-primary">
-                <%= md['key'] %>:
-            </span>
 
-            <%= md['value'] %>
-        </p>
-    <% end %>
-</ul>
+<% attributes = @dspace_obj.metadata
+   @config[:item_display][:detail_metadata_list].each do |md| %>
+    <p class="<%= md_to_class(md) %>">
+            <span class="text-primary">
+                <%= md %>:
+            </span>
+        <%= attributes[md] %>
+    </p>
+<% end %>
+
 
 <h3> Download </h3>
 <ul>

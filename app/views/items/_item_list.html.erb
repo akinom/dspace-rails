@@ -1,0 +1,16 @@
+<ul>
+    <% @items.each do |itm| %>
+        <li>
+            <% if itm.metadata.empty? then %>
+                <%= link_to itm.name, item_path(itm.id) %>
+            <% else %>
+                <%= link_to item_path(itm.id)  do %>
+                    <span aria-hidden="true" class="glyphicon glyphicon-circle-arrow-right"></span>
+                <% end %>
+
+                <%= render :partial => 'items/onestring',
+                           :locals => { :attributes => itm.metadata(@config[:item_display][:short_metadata_list])} %>
+            <% end %>
+        </li>
+    <% end %>
+</ul>

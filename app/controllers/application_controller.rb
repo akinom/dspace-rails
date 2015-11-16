@@ -38,7 +38,7 @@ class ApplicationController < ActionController::Base
 
   alias_method :plain_render, :render
 
-  def render(*args, &block)
+  def resolve_configs
     unless @config
       contexts = [nil]
       contexts << @dspace_obj_parents.collect { |d| d.handle }
@@ -46,8 +46,12 @@ class ApplicationController < ActionController::Base
       contexts << current_user.email if current_user
       @config = ConfigValue.resolve(contexts)
     end
+  end
 
+  def render(*args, &block)
+    resolve_configs
 
+    # see whether there is a layout specific template for this
     args[0] = {} unless args[0]
     unless args[0].class == Symbol
       args[0][:layout] = args[0][:layout] || params['layout']

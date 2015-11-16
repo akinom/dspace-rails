@@ -4,7 +4,7 @@ class CommunitiesController < ApplicationController
 
   # GET /communities
   def top
-    @top_communities ||= DSpace::Rest::Community.topCommuities(:linit => 10000)
+    @top_communities ||= Community.topCommuities(:linit => 10000)
   end
 
   # GET /communities/1
@@ -16,7 +16,7 @@ class CommunitiesController < ApplicationController
   private
     def set_obj
       # should have parentCommunityList expander
-      set_dspace_obj(DSpace::Rest::Community, ['parentCommunity'])
+      set_dspace_obj(Community, ['parentCommunity'])
     end
 
 end

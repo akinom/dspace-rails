@@ -10,7 +10,7 @@ class BitstreamsController < ApplicationController
 
   private
     def set_obj
-      set_dspace_obj(DSpace::Rest::Bitstream, ['parent'])
+      set_dspace_obj(Bitstream, ['parent'])
     end
 
 end

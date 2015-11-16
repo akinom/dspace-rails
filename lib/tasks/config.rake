@@ -40,7 +40,7 @@ namespace :config do
 
 
     descr = ConfigType.find_by_name('CollectionDescription')
-    DSpace::Rest::Community.topCommuities(:linit => 10000).each do |com|
+    Community.topCommuities(:linit => 10000).each do |com|
       if (com.name[0] <= 'M') then
         value = "Describing this very content with words about #{com.name}"
         val = ConfigValue.find_by(config_type: descr, :scope => com.handle)

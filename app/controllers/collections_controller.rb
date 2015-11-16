@@ -12,7 +12,7 @@ class CollectionsController < ApplicationController
 
   private
     def set_obj
-      set_dspace_obj(DSpace::Rest::Collection, ['parentCommunityList'])
+      set_dspace_obj(Collection, ['parentCommunityList'])
     end
 
 end

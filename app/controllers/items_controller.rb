@@ -9,7 +9,7 @@ class ItemsController < ApplicationController
 
   private
     def set_obj
-      set_dspace_obj(DSpace::Rest::Item, ['metadata', 'parentCollectionList', 'parentCommunityList'])
+      set_dspace_obj(Item, ['metadata', 'parentCollectionList', 'parentCommunityList'])
     end
 
 end

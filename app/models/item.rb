@@ -1,5 +1,4 @@
 class Item < DSpace::Rest::Item
-
 end
 
 module DSpace

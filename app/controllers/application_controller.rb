@@ -73,9 +73,9 @@ class ApplicationController < ActionController::Base
   def call_layout_method(actn = nil)
     mthd = "#{@layout}_#{actn || params['action']}"
     if respond_to? mthd
-      puts "> mthd"
+      logger.info  "  Calling #{mthd}"
       self.send mthd
-      puts "< mthd"
+      logger.debug  "  Returning #{mthd}"
     end
   end
 
@@ -86,10 +86,10 @@ class ApplicationController < ActionController::Base
       file = "#{@layout}/#{ctrler}_controller.rb"
       unless false && @@tried_layout_explansion[file]
         begin
-          puts "try #{file}"
-          require file
+          load file
+          logger.info "  loaded #{file}"
         rescue Exception => e
-          puts "no such #{file}"
+          logger.debug "  no such #{file}"
         end
         @@tried_layout_explansion[file] = true
       end

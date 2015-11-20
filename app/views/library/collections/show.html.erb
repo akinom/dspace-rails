@@ -6,12 +6,12 @@ You could add a search form that allows search off all of TheGreatPlace's digita
 </p>
 
 <p>
-    These following are part of our glorious digital collections in <%= @dspace_obj.name %>
+    These following are part of our glorious digital collections in <%= @c_dspace_obj.name %>
 </p>
 
 
 <ul>
-    <% @items.each do |itm| %>
+    <% @c_items.each do |itm| %>
         <li>
             <td><%= link_to itm.name, item_path(itm.id)  %></td>
         </li>

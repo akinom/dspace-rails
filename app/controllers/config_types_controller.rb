@@ -4,7 +4,7 @@ class ConfigTypesController < ApplicationController
   # GET /config_types
   # GET /config_types.json
   def index
-    @config_types = ConfigType.all
+    @c_config_types = ConfigType.all
   end
 
   # GET /config_types/1
@@ -14,7 +14,7 @@ class ConfigTypesController < ApplicationController
 
   # GET /config_types/new
   def new
-    @config_type = ConfigType.new
+    @c_config_type = ConfigType.new
   end
 
   # GET /config_types/1/edit
@@ -24,15 +24,15 @@ class ConfigTypesController < ApplicationController
   # POST /config_types
   # POST /config_types.json
   def create
-    @config_type = ConfigType.new(config_type_params)
+    @c_config_type = ConfigType.new(config_type_params)
 
     respond_to do |format|
-      if @config_type.save
-        format.html { redirect_to @config_type, notice: 'Config type was successfully created.' }
-        format.json { render :show, status: :created, location: @config_type }
+      if @c_config_type.save
+        format.html { redirect_to @c_config_type, notice: 'Config type was successfully created.' }
+        format.json { render :show, status: :created, location: @c_config_type }
       else
         format.html { render :new }
-        format.json { render json: @config_type.errors, status: :unprocessable_entity }
+        format.json { render json: @c_config_type.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -41,12 +41,12 @@ class ConfigTypesController < ApplicationController
   # PATCH/PUT /config_types/1.json
   def update
     respond_to do |format|
-      if @config_type.update(config_type_params)
-        format.html { redirect_to @config_type, notice: 'Config type was successfully updated.' }
-        format.json { render :show, status: :ok, location: @config_type }
+      if @c_config_type.update(config_type_params)
+        format.html { redirect_to @c_config_type, notice: 'Config type was successfully updated.' }
+        format.json { render :show, status: :ok, location: @c_config_type }
       else
         format.html { render :edit }
-        format.json { render json: @config_type.errors, status: :unprocessable_entity }
+        format.json { render json: @c_config_type.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -54,7 +54,7 @@ class ConfigTypesController < ApplicationController
   # DELETE /config_types/1
   # DELETE /config_types/1.json
   def destroy
-    @config_type.destroy
+    @c_config_type.destroy
     respond_to do |format|
       format.html { redirect_to config_types_url, notice: 'Config type was successfully destroyed.' }
       format.json { head :no_content }
@@ -64,7 +64,7 @@ class ConfigTypesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_config_type
-      @config_type = ConfigType.find(params[:id])
+      @c_config_type = ConfigType.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

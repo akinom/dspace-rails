@@ -4,7 +4,7 @@ class CollectionsController < ApplicationController
 
   # GET /colections/1
   def show
-    @items = @dspace_obj.items({limit: 10})  unless @items
+    @c_items = @c_dspace_obj.items({limit: 10})  unless @c_items
   end
 
 

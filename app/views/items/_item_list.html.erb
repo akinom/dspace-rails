@@ -1,5 +1,5 @@
 <ul>
-    <% @items.each do |itm| %>
+    <% @c_items.each do |itm| %>
         <li>
             <% if itm.metadata.empty? then %>
                 <%= link_to itm.name, item_path(itm.id) %>
@@ -9,7 +9,7 @@
                 <% end %>
 
                 <%= render :partial => 'items/onestring',
-                           :locals => { :attributes => itm.metadata(@config[:item_display][:short_metadata_list])} %>
+                           :locals => { :attributes => itm.metadata(@c_config[:item_display][:short_metadata_list])} %>
             <% end %>
         </li>
     <% end %>

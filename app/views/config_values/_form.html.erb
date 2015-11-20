@@ -1,11 +1,11 @@
-<%= form_for([@config_type, @config_value]) do |f| %>
-    <% if @config_value.errors.any? %>
+<%= form_for([@c_config_type, @c_config_value]) do |f| %>
+    <% if @c_config_value.errors.any? %>
         <div id="error_explanation">
-            <h2><%= pluralize(@config_value.errors.count, "error") %> prohibited this config_value from being
+            <h2><%= pluralize(@c_config_value.errors.count, "error") %> prohibited this config_value from being
                 saved:</h2>
 
             <ul>
-                <% @config_value.errors.full_messages.each do |message| %>
+                <% @c_config_value.errors.full_messages.each do |message| %>
                     <li><%= message %></li>
                 <% end %>
             </ul>

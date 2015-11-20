@@ -1,8 +1,8 @@
-<h1> Collection: <%= @dspace_obj.name %> </h1>
+<h1> Collection: <%= @c_dspace_obj.name %> </h1>
 
-<%= content_tag('p', @config[:collection_description]) if @config[:collection_description] %>
+<%= content_tag('p', @c_config[:collection_description]) if @c_config[:collection_description] %>
 
-<h4> Handle: <%= @dspace_obj.handle %> </h4>
+<h4> Handle: <%= @c_dspace_obj.handle %> </h4>
 
 <h2> Items </h2>
 

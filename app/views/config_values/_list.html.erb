@@ -9,7 +9,7 @@
     </thead>
 
     <tbody>
-    <% @config_values.each do |config_value| %>
+    <% @c_config_values.each do |config_value| %>
         <tr>
             <td><%= link_to config_value.config_type.name, config_type_path(config_value.config_type) %> &nbsp;</td>
             <td><%= config_value.scope %> &nbsp;</td>

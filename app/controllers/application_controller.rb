@@ -17,34 +17,34 @@ class ApplicationController < ActionController::Base
   end
 
   def set_dspace_obj(klass, expand = [])
-    @dspace_obj = klass.find_by_id(params[:id], expand)
-    @dspace_obj_parents = @dspace_obj.parent_list
-    @dspace_obj
+    @c_dspace_obj = klass.find_by_id(params[:id], expand)
+    @c_dspace_obj_parents = @c_dspace_obj.parent_list
+    @c_dspace_obj
   end
 
   def do_always
     # if dspace_obj_parents not set by set_dspace_obj  default to []
-    @dspace_obj_parents = [] unless @dspace_obj_parents
+    @c_dspace_obj_parents = [] unless @c_dspace_obj_parents
 
-    @layout = params['layout']
+    @c_layout = params['layout']
     load_layout_concerns
     call_layout_method :do_always
   end
 
   # app/controllers/application_controller.rb
   def default_url_options(options = {})
-    {layout: @layout}.merge options
+    {layout: @c_layout}.merge options
   end
 
   alias_method :plain_render, :render
 
   def resolve_configs
-    unless @config
+    unless @c_config
       contexts = [nil]
-      contexts << @dspace_obj_parents.collect { |d| d.handle }
-      contexts << @dspace_obj.handle if @dspace_obj
+      contexts << @c_dspace_obj_parents.collect { |d| d.handle }
+      contexts << @c_dspace_obj.handle if @c_dspace_obj
       contexts << current_user.email if current_user
-      @config = ConfigValue.resolve(contexts)
+      @c_config = ConfigValue.resolve(contexts)
     end
   end
 
@@ -71,7 +71,7 @@ class ApplicationController < ActionController::Base
 
 
   def call_layout_method(actn = nil)
-    mthd = "#{@layout}_#{actn || params['action']}"
+    mthd = "#{@c_layout}_#{actn || params['action']}"
     if respond_to? mthd
       logger.info  "  Calling #{mthd}"
       self.send mthd
@@ -83,7 +83,7 @@ class ApplicationController < ActionController::Base
 
   def load_layout_concerns
     ["application", params['controller']].each do |ctrler|
-      file = "#{@layout}/#{ctrler}_controller.rb"
+      file = "#{@c_layout}/#{ctrler}_controller.rb"
       unless false && @@tried_layout_explansion[file]
         begin
           load file

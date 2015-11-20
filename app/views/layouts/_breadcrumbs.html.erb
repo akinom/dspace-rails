@@ -1,6 +1,6 @@
 <ol class="breadcrumb">
         <li> <a href="/"> Home </a> </li>
-        <% @dspace_obj_parents.reverse.each do |p| %>
+        <% @c_dspace_obj_parents.reverse.each do |p| %>
             <li>  <%= link_to p.name, community_path(p.id) %> </li>
         <% end %>
 </ol>

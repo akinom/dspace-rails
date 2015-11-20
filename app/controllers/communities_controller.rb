@@ -9,8 +9,8 @@ class CommunitiesController < ApplicationController
 
   # GET /communities/1
   def show
-    @collections = @dspace_obj.collections({})
-    @communities = @dspace_obj.communities({})
+    @c_collections = @c_dspace_obj.collections({})
+    @c_communities = @c_dspace_obj.communities({})
   end
 
   private

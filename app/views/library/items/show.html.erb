@@ -4,8 +4,8 @@
 
 <h1> Citation </h1>
 
-<% attributes = @dspace_obj.metadata
-   @config[:item_display][:detail_metadata_list].each do |md| %>
+<% attributes = @c_dspace_obj.metadata
+   @c_config[:item_display][:detail_metadata_list].each do |md| %>
     <p class="<%= md_to_class(md) %>">
             <span class="text-primary">
                 <%= md %>:
@@ -17,10 +17,10 @@
 
 <h3> Download </h3>
 <ul>
-    <% if (@bitstreams.empty?) then %>
+    <% if (@c_bitstreams.empty?) then %>
         <li> No files available for download, Please contatc the library at XXXX for assistance</li>
     <% else %>
-        <% @bitstreams.each do |bit| %>
+        <% @c_bitstreams.each do |bit| %>
             <li>
                 <%= link_to bit.name, bitstream_path(bit.id) %>
             </li>

@@ -2,7 +2,7 @@
 <h1> Top Communities</h1>
 
 <ul>
-    <% @top_communities.each do |com| %>
+    <% @c_top_communities.each do |com| %>
         <li>
             <%= link_to com.name, url_for(:action => :show, :id => com.id)  %>
         </li>

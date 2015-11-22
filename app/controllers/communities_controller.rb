@@ -4,7 +4,7 @@ class CommunitiesController < ApplicationController
 
   # GET /communities
   def top
-    @c_top_communities ||= Community.topCommuities(:linit => 10000)
+    @c_top_communities ||= Community.topCommuities(:limit => 10000)
   end
 
   # GET /communities/1

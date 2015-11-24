@@ -16,59 +16,14 @@ class ApplicationController < ActionController::Base
   def todo
   end
 
+  # -----------------------------------------
+  # methods to be called by derived controllers
+  # -----------------------------------------
   def set_dspace_obj(klass, expand = [])
     @c_dspace_obj = klass.find_by_id(params[:id], expand)
     @c_dspace_obj_parents = @c_dspace_obj.parent_list
     @c_dspace_obj
   end
-
-  def do_always
-    # if dspace_obj_parents not set by set_dspace_obj  default to []
-    @c_dspace_obj_parents = [] unless @c_dspace_obj_parents
-
-    @c_layout = params['layout']
-    load_layout_concerns
-    call_layout_method :do_always
-  end
-
-  # app/controllers/application_controller.rb
-  def default_url_options(options = {})
-    {layout: @c_layout}.merge options
-  end
-
-  alias_method :plain_render, :render
-
-  def resolve_configs
-    unless @c_config
-      contexts = [nil]
-      contexts << @c_dspace_obj_parents.collect { |d| d.handle }
-      contexts << @c_dspace_obj.handle if @c_dspace_obj
-      contexts << current_user.email if current_user
-      @c_config = ConfigValue.resolve(contexts)
-    end
-  end
-
-  def render(*args, &block)
-    resolve_configs
-
-    # see whether there is a layout specific template for this
-    args[0] = {} unless args[0]
-    unless args[0].class == Symbol
-      args[0][:layout] = args[0][:layout] || params['layout']
-      template = args[0][:template]
-      if (template.nil?) then
-        controller = args[0][:controller] || params['controller']
-        action = args[0][:action] || params['action']
-        overwrite = "#{args[0][:layout]}/#{controller}/#{action}"
-        if (template_exists?(overwrite)) then
-          args[0][:template] = overwrite
-        end
-      end
-    end
-
-    plain_render(*args, &block)
-  end
-
 
   def call_layout_method(actn = nil)
     mthd = "#{@c_layout}_#{actn || params['action']}"
@@ -95,5 +50,58 @@ class ApplicationController < ActionController::Base
       end
     end
   end
+
+  # -----------------------------------------
+  # methods triggered by all controller actions
+  # -----------------------------------------
+  def default_url_options(options = {})
+    {layout: @c_layout}.merge options
+  end
+
+  def do_always
+    @c_ability = Ability.new(@current_user)
+
+    # if dspace_obj_parents not set by set_dspace_obj  default to []
+    @c_dspace_obj_parents = [] unless @c_dspace_obj_parents
+
+    @c_layout = params['layout']
+    load_layout_concerns
+    call_layout_method :do_always
+  end
+
+
+  alias_method :plain_render, :render
+
+  def render(*args, &block)
+    resolve_configs
+
+    # see whether there is a layout specific template for this
+    args[0] = {} unless args[0]
+    unless args[0].class == Symbol
+      args[0][:layout] = args[0][:layout] || params['layout']
+      template = args[0][:template]
+      if (template.nil?) then
+        controller = args[0][:controller] || params['controller']
+        action = args[0][:action] || params['action']
+        overwrite = "#{args[0][:layout]}/#{controller}/#{action}"
+        if (template_exists?(overwrite)) then
+          args[0][:template] = overwrite
+        end
+      end
+    end
+
+    plain_render(*args, &block)
+  end
+
+  def resolve_configs
+    unless @c_config
+      contexts = [nil]
+      contexts << @c_dspace_obj_parents.collect { |d| d.handle }
+      contexts << @c_dspace_obj.handle if @c_dspace_obj
+      contexts << current_user.email if current_user
+      @c_config = ConfigValue.resolve(contexts)
+    end
+  end
+
 
 end

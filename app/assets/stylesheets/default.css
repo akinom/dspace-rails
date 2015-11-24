@@ -7,6 +7,10 @@
     text-decoration: underline;
 }
 
+.admin_header {
+    background-color: #b2dba1;
+    padding: 1em;
+}
 
 /* on item view page make .dc-contributor-author bold  */
 .show.items .dc-contributor-author {

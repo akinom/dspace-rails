@@ -1,5 +1,9 @@
-<h1> TODO <%= @c_config[:app_name] %> </h1>
+<h1> TODO: Not Implemented </h1>
 
-<p>
-And not yet done
-</p>
+<ul>
+    <% params.each do |key, value| %>
+        <li>
+            <%= "#{key}: #{value}" %>
+        </li>
+    <% end %>
+</ul>

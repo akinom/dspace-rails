@@ -24,6 +24,8 @@
 <!-- there is something going on with bootstrap that does not move main below the nav header -->
 
 <div class='container' style="margin-top: 64px">
+    <%= render partial: 'default/loggedin_header' if @current_user %>
+
     <%= render partial: 'layouts/breadcrumbs' %>
 
     <div class="content">

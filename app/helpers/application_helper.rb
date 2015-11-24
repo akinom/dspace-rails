@@ -24,6 +24,10 @@ module ApplicationHelper
     end
   end
 
+  def can?(obj, actn)
+    @c_ability.can?(obj, actn)
+  end
+  
   def debug_inspect(value)
     if value.respond_to? :collect then
       vals = value.collect { |e| content_tag(:li, h(e.inspect)) }

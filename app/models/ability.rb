@@ -7,12 +7,13 @@ class Ability
   end
 
   def can?(obj, actn)
-    obj.can?(actn.to_sym, @user)
+    return true if actn.nil?
+    return obj.can?(actn.to_sym, @user)
   end
 
   def authorize!(obj, actn)
-    unless obj.can?(actn.to_sym, @user)
-      raise "not authorzied to #{@actn} #{@obj}"
+    unless actn.nil? || obj.can?(actn, @user)
+      raise "not authorzied to #{actn} #{obj}"
     end
     true
   end
@@ -27,13 +28,22 @@ module DSpace
         return rights.find_index(actn)
       end
     end
+
+    class Community
+      def self.can?(actn, user)
+        return false if user.nil?
+        return actn != :create
+      end
+    end
+
+    class Collection
+      def self.can?(actn, user)
+        # can't ever do anything on Collection class
+        # create/delete done in relation to Community objects
+        return false
+      end
+    end
+
   end
 end
 
-module  ActiveRecord
-  class Base
-    def can?(actn, user)
-      return user  # anything if logged in - nothing otherwise
-    end
-  end
-end

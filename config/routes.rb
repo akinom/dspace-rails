@@ -4,7 +4,7 @@ Rails.application.routes.draw do
 
   scope "/:layout" do
 
-    resources :communities, :only =>[:show]
+    resources :communities, :only =>[:show, :new, :edit, :destroy]
     resources :collections, :only =>[:show]
     resources :items, only: [:show]
     resources :bitstreams, only: [:show]

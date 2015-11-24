@@ -59,7 +59,7 @@ class ApplicationController < ActionController::Base
   end
 
   def do_always
-    @c_ability = Ability.new(@current_user)
+    @c_ability = Ability.new(current_user)
 
     # if dspace_obj_parents not set by set_dspace_obj  default to []
     @c_dspace_obj_parents = [] unless @c_dspace_obj_parents

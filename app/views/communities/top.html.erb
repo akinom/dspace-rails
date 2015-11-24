@@ -4,8 +4,11 @@
 <ul>
     <% @c_top_communities.each do |com| %>
         <li>
-            <%= link_to com.name, url_for(:action => :show, :id => com.id)  %>
+            <%= link_to com.name, community_path(com.id)  %>
+            <%= button_to "EDIT", edit_community_path(com.id), method: :get if can?(com, :update) %>
+            <%= button_to 'Destroy', community_path(com.id), method: :delete if can?(com, :delete)%>
         </li>
     <% end %>
 </ul>
+
 

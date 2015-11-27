@@ -35,8 +35,8 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-#gem 'dspace-rest',  :git => 'https://github.com/akinom/do-dspace-rest.git', :branch => 'master'
-gem 'dspace-rest',  :path => '/Users/monikam/DSpaces/srcs/restspace/scripts/do-dsapce-rest'
+gem 'dspace-rest',  :git => 'https://github.com/akinom/do-dspace-rest.git', :branch => 'fake_it_for_ui'
+#gem 'dspace-rest',  :path => '/Users/monikam/DSpaces/srcs/restspace/scripts/do-dsapce-rest'
 gem 'devise', '~> 3.4.0'   # or later
 
 group :development, :test do

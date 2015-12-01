@@ -1,11 +1,11 @@
-= dsapce-rails
+= dspace-rails
 
 I tested this with ruby 2.0.0, rails 4.2.4 and a postgresql database in the development environment only.
 
 Find a live installation at https://immense-sierra-3941.herokuapp.com/
 which works with the rest api installed at http://tstspace.princeton.edu/rest.
 
-The code consists of two compoenets: the rails application itself and a gem that deals with the rest api interaction,
+The code consists of two components: the rails application itself and a gem that deals with the rest api interaction,
 see dspace-rest at https://github.com/akinom/do-dspace-rest.git. The gem is currently not setup to do https.
 
 == Installation
@@ -19,7 +19,7 @@ install bundler, http://bundler.io/
 download the code and change to the source root
 
 edit link:config/database.yml file and adjust the database settings;
-as is the development environment is set up to work with a
+as is: the development environment is set up to work with a
 postgres database named dspace_rails_development that is accessible without credentials
 
 create the development database
@@ -59,53 +59,50 @@ plan you should see a listing of the top communities.
 === Debug Panel
 
 All pages show a big black block at the bottom which lists request parameters along
-with the values  computedby the action that was triggered by the request.
+with the values  computed in the action that was triggered by the request.
 As you will see each request has at leats the following three parameters:
     * layout  - valuied values are default, sitemap, library, and core
     * controller, action - these determin which method (action) id called on which controller
 
-Variables that start with c_ are computed and used by the core layout and maybe overwritten in derived layouts.
-For example the default layout always coputes'explore_communities' as the list of top level communities, in the
+Variables that start with c_ are computed and used by the core layout and may be overwritten in derived layouts.
+For example the default layout always computes'explore_communities' as the list of top level communities, in the
 #top action of the communities controller it reuses explore_communities to assign to c_top_communities.
 
 === Users/Accounts/Rights
 
 The widely used devise gem takes care of creating accounts, logging users in and out, dealing with password reminders, ...
-There are plugins for external authentocation systems, ...  ADD-LINK
+There are plugins for external authentication systems, ...; https://github.com/plataformatec/devise
+
 In this app I use devise such that users can self register.
 
 Once logged you'll see an additional menu that links to pages where users can manipulate configurations.
-The default layout includes the aditional menu if there is a current user: link:app/views/layouts/default.html.erb bythe line:
+The default layout presents the aditional menuto logged in users only;
+see the line in link:app/views/layouts/default.html.erb:
     <%= render partial: 'default/loggedin_header' if @current_user %>
 No rights checking is implemeted for configurations.
 
-Whether a user has the right to create, read, update, or delete
-communities, collections, items,..  is determined
+Whether a user has the right to create, read, update, or delete communities, collections, items,..  is determined
 with the help of the abitity class, link:app/models/ability.rb in cooperation with can? methods defined
 for dspace objects. I faked the inclusion of rights properties by the Rest Api
-on all communities, collections, items. Item objects make use of the rights array in their can? method.
-You can see the rights values in the Debug Panel.
+on all communities, collections, items. Note in link:app/models/ability.rb  how Item objects
+make use of the rights array in their can? method. You can see the rights values in the Debug Panel.
 
-A small helper method allows view code to decide whether to include links/forms for certain actions/objects,
+A small helper method enables the rendering code to decide whether
+to include links/forms for certain actions/objects,
 see for exmaple link:app/views/communities/top.html.erb
 
 === Adapting the display
 
-The About page of the life app explains about layouts.
+The About page of the life app explains about CSS, booststrap, layouts, ...
 
 === Configurations
 
 Configuration have a name,  type (aka klass), value (serialized to yaml) and a scope;
 
-
-
+.... need more here ....
 
 === Internationalization
-There is a gem LINK
-
-
-
-
+There is a gem, see http://guides.rubyonrails.org/i18n.html
 
 = Thanks
 Thanks to Peter Dietz's https://github.com/peterdietz/dspace-rest-rails and

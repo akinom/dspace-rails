@@ -1,30 +1,116 @@
-== dsapce-rails
+= dsapce-rails
 
-Thanks to Peter Dietz's https://github.com/peterdietz/dspace-rest-rails and
-https://github.com/peterdietz/dspace-rest-requests,
-which both helped me get started on this rails application
+I tested this with ruby 2.0.0, rails 4.2.4 and a postgresql database in the development environment only.
 
-=== Installations
+Find a live installation at https://immense-sierra-3941.herokuapp.com/
+which works with the rest api installed at http://tstspace.princeton.edu/rest.
 
-I tested this with ruby 2.1.1 and rails 4.2.4 and sqlite3 database. I have not tested production deployment.
+The code consists of two compoenets: the rails application itself and a gem that deals with the rest api interaction,
+see dspace-rest at https://github.com/akinom/do-dspace-rest.git. The gem is currently not setup to do https.
 
-There is also a live installation at https://immense-sierra-3941.herokuapp.com/ based on ruby 2.0.0 
+== Installation
 
-To run on locally: 
+=== Prerequisites
 
 install ruby, https://www.ruby-lang.org/en/
 
 install bundler, http://bundler.io/
 
-the run
+download the code and change to the source root
+
+edit link:config/database.yml file and adjust the database settings;
+as is the development environment is set up to work with a
+postgres database named dspace_rails_development that is accessible without credentials
+
+create the development database
+
+The app connects by default to http://tstspace.princeton.edu/rest.
+You can set the DSPAPCE_REST environment variable to a different url,
+or edit the link:config/application.rb file  to adjust for your environment.
+Again: Please note that the dspace-rest gem works only with http requests.
+
+    url = ENV["DSPACE_REST"] || "http://tstspace.princeton.edu/rest"
+
+
+=== Install
 
     bundle install
 
-=== Configuration
+    bundle exec rake db:migrate
 
-The app talks to the dspace rest point at http://localhost:8080/rest.
-This can be changed by editing link:config/application.rb, change the line
-    DSpace::Rest::API.start("http://localhost:8080/rest")
+
+If you wish to trace the rest api calls issued set the RESTCLIENT_LOG environment variable:
+    export RESTCLIENT_LOG=stdout
+
+Seed the database with a few configuration settings:
+     bundle exec rake config:seed
+
+If you are interested you can list the generated configuration values:
+     bunde exec rake config:list
+
+Finally start the server
+     bundle exec rails server
+
+Visit localhost:3000 in your browser and if everything went according to
+plan you should see a listing of the top communities.
+
+== Features
+
+=== Debug Panel
+
+All pages show a big black block at the bottom which lists request parameters along
+with the values  computedby the action that was triggered by the request.
+As you will see each request has at leats the following three parameters:
+    * layout  - valuied values are default, sitemap, library, and core
+    * controller, action - these determin which method (action) id called on which controller
+
+Variables that start with c_ are computed and used by the core layout and maybe overwritten in derived layouts.
+For example the default layout always coputes'explore_communities' as the list of top level communities, in the
+#top action of the communities controller it reuses explore_communities to assign to c_top_communities.
+
+=== Users/Accounts/Rights
+
+The widely used devise gem takes care of creating accounts, logging users in and out, dealing with password reminders, ...
+There are plugins for external authentocation systems, ...  ADD-LINK
+In this app I use devise such that users can self register.
+
+Once logged you'll see an additional menu that links to pages where users can manipulate configurations.
+The default layout includes the aditional menu if there is a current user: link:app/views/layouts/default.html.erb bythe line:
+    <%= render partial: 'default/loggedin_header' if @current_user %>
+No rights checking is implemeted for configurations.
+
+Whether a user has the right to create, read, update, or delete
+communities, collections, items,..  is determined
+with the help of the abitity class, link:app/models/ability.rb in cooperation with can? methods defined
+for dspace objects. I faked the inclusion of rights properties by the Rest Api
+on all communities, collections, items. Item objects make use of the rights array in their can? method.
+You can see the rights values in the Debug Panel.
+
+A small helper method allows view code to decide whether to include links/forms for certain actions/objects,
+see for exmaple link:app/views/communities/top.html.erb
+
+=== Adapting the display
+
+The About page of the life app explains about layouts.
+
+=== Configurations
+
+Configuration have a name,  type (aka klass), value (serialized to yaml) and a scope;
+
+
+
+
+=== Internationalization
+There is a gem LINK
+
+
+
+
+
+= Thanks
+Thanks to Peter Dietz's https://github.com/peterdietz/dspace-rest-rails and
+https://github.com/peterdietz/dspace-rest-requests,
+which both helped me get started on this rails application
 
 
 

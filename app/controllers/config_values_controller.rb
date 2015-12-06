@@ -39,7 +39,7 @@ class ConfigValuesController < ApplicationController
     if @c_config_value.update(config_value_params)
       redirect_to config_type_path(@c_config_type), notice: 'Config value was successfully updated.'
     else
-      redirect_to config_type_path(@c_config_type)
+      redirect_to edit_config_value_path(@c_config_value, notice: "Could not update")
     end
   end
 

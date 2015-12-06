@@ -63,6 +63,9 @@ class ConfigValuesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
     def config_value_params
-      params.require(:config_value).permit(:scope, :yaml_value, :value, :config_type_id)
+      cfp =  params['config_value']
+      cfp['scope'] = nil if cfp['scope'] == ""
+      cfp['value'] = cfp['value'].strip if cfp['value']
+      params.require(:config_value).permit(:scope, :value, :config_type_id)
     end
 end

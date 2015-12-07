@@ -8,6 +8,11 @@ which works with the rest api installed at http://tstspace.princeton.edu/rest.
 The code consists of two components: the rails application itself and a gem that deals with the rest api interaction,
 see dspace-rest at https://github.com/akinom/do-dspace-rest.git. The gem is currently not setup to do https.
 
+Kate reworked Peter Dietz's rails app to use the active-rest-client gem:  https://github.com/whichdigital/active-rest-client,
+which works with https. Since Kate and I teamed up late in the process we were not able to
+rework the do-dspace-rest gem. Her version of Peter's rails app is available at https://github.com/ekate/dspace-rest-rails/tree/active-rest-client.
+
+
 == Installation
 
 === Prerequisites
@@ -162,6 +167,13 @@ editing/updating/validating/and displaying custom values can be conveniently imp
 
 === Internationalization
 There is a gem, see http://guides.rubyonrails.org/i18n.html
+
+== Search, Browse, Solr
+
+The Blacklight gem (https://rubygems.org/search?query=blacklight) is popular in the hydra community.
+It provides a highly configurable UI to solr search indexes. While it likely will not be useful as is, it should provide
+a good starting point for development.
+
 
 = Thanks
 Thanks to Peter Dietz's https://github.com/peterdietz/dspace-rest-rails and

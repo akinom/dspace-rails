@@ -60,40 +60,42 @@ plan you should see a listing of the top communities.
 
 All pages show a big black block at the bottom which lists request parameters along
 with the values  computed in the action that was triggered by the request.
-As you will see each request has at leats the following three parameters:
-    * layout  - valuied values are default, sitemap, library, and core
-    * controller, action - these determin which method (action) id called on which controller
+As you will see each request has at least the following three parameters:
+    * layout  -  values are: default, sitemap, library, and core
+    * controller, action - these determine which method (action) is called on which controller
+layout, controller, and action parameters are derived from the url according to patterns defined in
+link:config/routes.rb
 
 Variables that start with c_ are computed and used by the core layout and may be overwritten in derived layouts.
-For example the default layout always computes'explore_communities' as the list of top level communities, in the
+For example the default layout always computes 'explore_communities' as the list of top level communities. In the
 #top action of the communities controller it reuses explore_communities to assign to c_top_communities.
 
 === Users/Accounts/Rights
 
 The widely used devise gem takes care of creating accounts, logging users in and out, dealing with password reminders, ...
-There are plugins for external authentication systems, ...; https://github.com/plataformatec/devise
+There are plugins for external authentication systems, ...; https://rubygems.org/search?query=devise
 
 In this app I use devise such that users can self register.
 
 Once logged you'll see an additional menu that links to pages where users can manipulate configurations.
-The default layout presents the aditional menuto logged in users only;
+The default layout presents the additional menu to logged in users only;
 see the line in link:app/views/layouts/default.html.erb:
     <%= render partial: 'default/loggedin_header' if @current_user %>
-No rights checking is implemeted for configurations.
+No rights checking is implemented for configurations.
 
 Whether a user has the right to create, read, update, or delete communities, collections, items,..  is determined
-with the help of the abitity class, link:app/models/ability.rb in cooperation with can? methods defined
+with the help of the ability class, link:app/models/ability.rb in cooperation with can? methods defined
 for dspace objects. I faked the inclusion of rights properties by the Rest Api
 on all communities, collections, items. Note in link:app/models/ability.rb  how Item objects
 make use of the rights array in their can? method. You can see the rights values in the Debug Panel.
 
 A small helper method enables the rendering code to decide whether
 to include links/forms for certain actions/objects,
-see for exmaple link:app/views/communities/top.html.erb
+see for example link:app/views/communities/top.html.erb
 
 === Adapting the display
 
-The About page of the life app explains about CSS, booststrap, layouts, ...
+The About page of the life app explains about CSS, booststrap, layouts, ... https://immense-sierra-3941.herokuapp.com/default/about
 
 === Configurations
 
@@ -101,7 +103,7 @@ Conceptually: Configuration Settings have a name, type (aka class), value (seria
 This is implemented by two ActiveRecord, database backed, classes: ConfigValue, link:app/models/config_value.rb
 and link:app/models/config_type.rb.
 Scopes help to maintain several values for the same configuration
-such that the appropiate value can be chosen based on 'scope'.
+such that the appropriate value can be chosen based on 'scope'.
 In this demo app we scope on dspace objects, defined by their handles, and the currently logged in user,
 defined by her email.
 
@@ -113,17 +115,18 @@ lists the configuration values that are active for the current page.
 Types are defined by a name and a class,
 eg: 'AppName' of class 'String' or 'ItemDisplay' of class 'Hash'.
 Values belong to a config type, have a scope, and a value represented by a yaml_string.
-The string value 'RailsSpace' with scope nil belongs to the 'AppName' type.
+The live application defines the value 'RailsSpace' with scope nil which belongs to the 'AppName' type.
 The Hash value
-    {:detail_metadata_list=>["dc.contributor.author", "dc.title", "dc.relation.ispartofseries",...]}
-with scope 123456789/3876 (which is interpreted as a handle) belongs to the 'ItemDisplay' type.
+    {:short_metadata_list=>["dc.contributor.author", "dc.contributor.advisor", "dc.title", ...]}
+with scope 88435/dsp01td96k251d, which is the handle of the 'Princeton University Doctoral Dissertations, 2011-2015' community,
+belongs to the 'ItemDisplay' type.
 
 The application controller computes the configuration values based on the
 selected dspace object, its parents, and the currently logged in user,
 such that values with scope 'nil' are overwritten by those scoped to the currently active community,
-collection, and/or item, and last those scoped to the currently logged in user,
+collection, and/or item, and last by values scoped to the currently logged in user,
 see the resolve_configs method in link:app/controllers/application_controller.rb.
-If a configuration's type  is Hash, values are merged to allow for partial overwrites.
+If a configuration's type is Hash, values are merged to allow for partial overwrites.
 Other scopes might become useful, such as a users' role, the active layout, ...
 You can view the configuration values computed in the @c_config hash shown in the Debug Panel.
 
@@ -133,9 +136,9 @@ the @c_config hash on all application pages.
 
 The live application defines several 'CollectionDescription' values, each scoped to a different community.
 The default value is the empty string,
-top communities have a 'proper' description and
+most top communities have a 'proper' description and
 sub communities, collections, and items  inherit the description of their top parent community.
-All collection pages respective description, unless it is empty. This is implemented by the line:
+All collection pages show the respective description, unless it is empty. This is implemented by the line:
     <%= content_tag('p', @c_config[:collection_description]) if @c_config[:collection_description] %>
 in link:app/views/collections/show.html.erb.  Again @c_config  in the Debug Panel shows the active
 description value.
@@ -144,15 +147,15 @@ description value.
 It is used in link:app/views/items/show.html.erb, link:app/views/items/_item_list.html.erb.
 Unlike 'CollectionDescription' it has a non empty default value that applies to most items.
 The overwriting value in the life application redefines only the metadata list for one
-hash key.
+hash key. You can see the effect on collection pages in any collection in the 'Princeton University Doctoral Dissertations, 2011-2015' community.
 
 Currently configurations validate whether a given value is compatible with the expected class.
-In addition validations should make sure that at most one type with the same name is created,
-at most one value with a given scope exists for each config_type.
+In addition validations should make sure that at most one type with the same name is created
+and at most one value with a given scope exists for each config_type.
 The examples above use the core Ruby classes, String and Hash.
 Since the code is  general, any class may be used to define configuration types.
 Instead of defining 'ItemDisplay' as a Hash, it should use a custom class that ensures, only
-existing metadata keys are used, that metadata values are displayed appropiately as text/names/dates/html/...
+existing metadata keys are used, that metadata values are displayed appropriately as text/names/dates/html/...
 The configuration editor and custom classes will need to agree on a framework/api/pattern so that
 editing/updating/validating/and displaying custom values can be conveniently implemented.
 

@@ -23,7 +23,7 @@ module DspaceRails
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
 
-    url = ENV["DSPACE_REST"] || "http://tstspace.princeton.edu/rest"
+    url = ENV["DSPACE_REST"] || "http://msdlib.home.nyu.edu/rest";
     DSpace::Rest::API.start(url);
 
   end

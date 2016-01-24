@@ -21,9 +21,9 @@
 
 <!-- there is something going on with bootstrap that does not move main below the nav header -->
 <div class="container" >
-    <div class="header">
+    <div class="header bg-primary">
         <header>
-            <p class="bg-primary"> Same Header as Library Web site </p>
+            <p> Same Header as Library Web site </p>
         </header>
     </div>
 
@@ -31,7 +31,7 @@
         <div class="ds_notice alert-success"><%= notice %></div>
         <div class="ds_alert alert-danger"><%= alert %></div>
 
-        <div class="row">
+        <div class="row bg-info sidebar" >
             <div class="col-md-2 ">
                 <p> Side </p>
 
@@ -44,7 +44,7 @@
                 <p> Likes it </p>
 
             </div>
-            <div class="col-md-10">
+            <div class="col-md-10 bg-warning">
                 <%= yield %>
             </div>
         </div>

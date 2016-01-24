@@ -1,20 +1,37 @@
+<div class="alert alert-warning">
+  <div>
+    begin app/views/<b>library</b>/collections/show.html.erb
+  </div>
 
-<h1> Digital Stuff at My Great Library  </h1>
+  <h1> Digital Stuff at My Great Library </h1>
 
-<p>
-You could add a search form that allows search off all of TheGreatPlace's digital assets here.
-</p>
+  <p>
+    collection text specifically defined for this layout <br/>
+    could easly be made configurable
+  </p>
 
-<p>
-    These following are part of our glorious digital collections in <%= @c_dspace_obj.name %>
-</p>
+  <p>
+    or add the library search functionality here
+  </p>
+
+  <p>
+    Text about <%= @c_dspace_obj.name %>  <br/>
+    its static tect
+    but could be configured with the config mechanism
+
+  </p>
 
 
-<ul>
+  <ul>
     <% @c_items.each do |itm| %>
         <li>
-            <td><%= link_to itm.name, item_path(itm.id)  %></td>
+          <td><%= link_to itm.name, item_path(itm.id) %></td>
         </li>
     <% end %>
-</ul>
+  </ul>
 
+  <div>
+    end app/views/<b>library</b>/collections/show.html.erb
+  </div>
+
+</div>

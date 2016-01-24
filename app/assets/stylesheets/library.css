@@ -1,29 +1,14 @@
-.debug {
-    background-color: black;
-    color: white;
-    padding: 1em;
-}
-.about.application  .content a {
-    text-decoration: underline;
+.library header p {
+    height: 100px;
+    text-align: center;
+    padding: 0px;
 }
 
-.admin_header {
-    background-color: #b2dba1;
-    padding: 1em;
+.library header {
+    margin-bottom: 12px;
 }
 
-/* on item view page make .dc-contributor-author bold  */
-.show.items .dc-contributor-author {
-    font-weight: bold;
+.library .yield {
+    background-color: white;
 }
 
-/* on item view page when in default layout  make .dc.title bold  */
-.default.show.items .dc-title {
-    font-weight: bold;
-}
-
-/* on item view pages in collection with handle 123456789/4028 'Computer Science'
-   make .dc.title dc.date.accessioned x-small  */
-.hdl-123456789-4875.show.items .dc-date-accessioned {
-    font-size: x-small;
-}

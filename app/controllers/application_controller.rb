@@ -20,6 +20,8 @@ class ApplicationController < ActionController::Base
   # methods to be called by derived controllers
   # -----------------------------------------
   def set_dspace_obj(klass, expand = [])
+    @cc_method_trace  << "#{self.class}.set_dspace_obj"
+
     @c_dspace_obj = klass.find_by_id(params[:id], expand)
     @c_dspace_obj_parents = @c_dspace_obj.parent_list
     @c_dspace_obj
@@ -28,6 +30,7 @@ class ApplicationController < ActionController::Base
   def call_layout_method(actn = nil)
     mthd = "#{@c_layout}_#{actn || params['action']}"
     if respond_to? mthd
+      @cc_method_trace  << "#{mthd}"
       logger.info  "  Calling #{mthd}"
       self.send mthd
       logger.debug  "  Returning #{mthd}"
@@ -59,6 +62,7 @@ class ApplicationController < ActionController::Base
   end
 
   def do_always
+    @cc_method_trace = ["#{self.class}.do_always"];
     @c_ability = Ability.new(current_user)
 
     # if dspace_obj_parents not set by set_dspace_obj  default to []
@@ -89,12 +93,13 @@ class ApplicationController < ActionController::Base
         end
       end
     end
-
+    @cc_method_trace << "#{self.class}.render(#{args[0][:template]})"
     plain_render(*args, &block)
   end
 
   def resolve_configs
     unless @c_config
+      @cc_method_trace << "#{self.class}.resolve_configs";
       contexts = [nil]
       contexts << @c_dspace_obj_parents.collect { |d| d.handle }
       contexts << @c_dspace_obj.handle if @c_dspace_obj

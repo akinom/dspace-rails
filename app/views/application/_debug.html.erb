@@ -3,11 +3,13 @@
   <p>
     params: <%= params.inspect %>
   </p>
-
+   <p>
+     rendering starts at: app/views/layouts/<%= params['layout']%>.html.erb
+  </p>
   <p>
     key method_trace:
     <%= debug_inspect(@cc_method_trace) %>
-  </p>
+  </p> 
   <div> instance_variables</div>
 
   <ul>

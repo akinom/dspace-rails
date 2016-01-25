@@ -30,7 +30,7 @@ class ApplicationController < ActionController::Base
   def call_layout_method(actn = nil)
     mthd = "#{@c_layout}_#{actn || params['action']}"
     if respond_to? mthd
-      @cc_method_trace  << "#{mthd}"
+      @cc_method_trace  << "#{self.class}.#{mthd}"
       logger.info  "  Calling #{mthd}"
       self.send mthd
       logger.debug  "  Returning #{mthd}"

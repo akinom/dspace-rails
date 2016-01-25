@@ -24,7 +24,6 @@ module DSpace
   module Rest
     class DSpaceObj
       def can?(actn, user)
-        return true if user    # anything if logged in
         return rights.find_index(actn)
       end
     end
